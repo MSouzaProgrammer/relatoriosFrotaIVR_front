@@ -38,36 +38,37 @@ export default function App() {
 
         {/* SIDEBAR (Corrigido: background.paper com 'b' minúsculo) */}
         <Box sx={{ width: 200, bgcolor: 'background.paper', borderRight: '1px solid #1E293B' }}>
-          <Typography variant="h6" sx={{ p: 2, fontWeight: 'bold', color: 'primary.main' }}>
-            Frota IVR
+          <Typography variant="h6" sx={{fontSize:25, p: 2, fontWeight: 'bold', color: 'primary.main' }}>
+            Frota IVRNET
           </Typography>
 
           <List>
             <ListItem disablePadding>
               <ListItemButton onClick={() => setTelaAtual('dashboard')}>
                 <ListItemIcon><Dashboard color="primary" /></ListItemIcon>
-                <ListItemText primary="Dashboard" />
+                <ListItemText primary="Dashboard"
+                sx={{ '& .MuiListItemText-primary': { fontSize:'20px', fontWeight:'500'}}}/>
               </ListItemButton>
             </ListItem>
 
             <ListItem disablePadding>
               <ListItemButton onClick={() => setTelaAtual('combustivel')}>
                 <ListItemIcon><GasStationIcon color="primary" /></ListItemIcon>
-                <ListItemText primary="Combustível" />
+                <ListItemText primary="Combustível"sx={{ '& .MuiListItemText-primary': { fontSize:'20px', fontWeight:'500'}}} />
               </ListItemButton>
             </ListItem>
 
             <ListItem disablePadding>
               <ListItemButton onClick={() => setTelaAtual('lavagem')}>
                 <ListItemIcon><CarWashIcon color="primary" /></ListItemIcon>
-                <ListItemText primary="Lavagem" />
+                <ListItemText primary="Lavagem" sx={{ '& .MuiListItemText-primary': { fontSize:'20px', fontWeight:'500'}}}/>
               </ListItemButton>
             </ListItem>
 
             <ListItem disablePadding>
               <ListItemButton onClick={() => setTelaAtual('relatorios')}>
                 <ListItemIcon><BarChartIcon color="primary" /></ListItemIcon>
-                <ListItemText primary="Relatórios" />
+                <ListItemText primary="Relatórios" sx={{ '& .MuiListItemText-primary': { fontSize:'20px', fontWeight:'500'}}}/>
               </ListItemButton>
             </ListItem>
           </List>
@@ -86,7 +87,16 @@ export default function App() {
 
           {/* TELA 2: COMBUSTÍVEL */}
           {telaAtual === 'combustivel' && (
-            <Box sx={{ maxWidth: 600 }}>
+            <Box sx={{
+              flexGrow: 1,
+              p: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              border: '1px solid #1E293B',
+              borderRadius:3,
+              bgcolor:'background.paper',
+            }}>
               <Typography variant="h4" sx={{ mb: 3, fontWeight: 'bold' }}>
                 ⛽ Registrar Combustível
               </Typography>
