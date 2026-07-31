@@ -1,180 +1,50 @@
 import { useState } from 'react';
-import {
-  createTheme, ThemeProvider, CssBaseline, Box, Typography,
-  List, ListItem, ListItemButton, ListItemIcon, ListItemText,
-  TextField, Button, Grid,
-  MenuItem
-} from '@mui/material';
-
-import GasStationIcon from '@mui/icons-material/LocalGasStation';
-import CarWashIcon from '@mui/icons-material/LocalCarWash';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import Dashboard from '@mui/icons-material/DashboardOutlined';
-
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-    background: {
-      default: '#0B0F19',
-      paper: '#111827',
-    },
-    primary: {
-      main: '#3B82F6'
-    },
-  },
-});
+import { CheckCircle2, X } from 'lucide-react';
+import type { Page, FuelRecord, WashRecord, Vehicle } from './types';
+import { useFrota } from './hooks/useFrota';
+import { Sidebar } from './components/Layout/Sidebar';
+import { Header } from './components/Layout/Header';
+import { Dashboard } from './pages/Dashboard';
+import { VeiculosPage } from './pages/Veiculos';
+import { CombustivelPage } from './pages/Combustivel';
+import { LavagemPage } from './pages/Lavagem';
+import { RelatoriosPage } from './pages/Relatorios';
 
 export default function App() {
-  const [telaAtual, setTelaAtual] = useState('dashboard');
-  const [ModeloCarroLavagem, setModeloCarroLavagem] = useState('');
-  const [ModeloCarroCombustivel, setModeloCarroCombustivel] = useState('');
+  const { vehicles, setVehicles, fuelRecords, setFuelRecords, washRecords, setWashRecords } = useFrota();
+  const [page, setPage] = useState<Page>('veiculos');
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [snack, setSnack] = useState<{ open: boolean; msg: string }>({ open: false, msg: '' });
+
+  const showSnack = (msg: string) => setSnack({ open: true, msg });
+
+  // Wrap setters to show snack
+  const handleAddFuel = (r: FuelRecord) => { setFuelRecords(prev => [r, ...prev]); showSnack(`Abastecimento de ${r.placa} registrado!`); };
+  const handleAddWash = (r: WashRecord) => { setWashRecords(prev => [r, ...prev]); showSnack(`Lavagem de ${r.placa} registrada!`); };
+  const handleUpdateKm = (id: string, km: number) => setVehicles(prev => prev.map(v => v.id === id ? { ...v, kmAtual: Math.max(v.kmAtual, km) } : v));
 
   return (
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
+    <div className="min-h-screen bg-[#0B0F19] text-[#E2E8F0] flex" style={{ fontFamily: 'Inter, sans-serif' }}>
+      <Sidebar currentPage={page} onNavigate={setPage} totalVeiculos={vehicles.length} veiculosAtivos={vehicles.filter(v => v.status === 'ativo').length} mobileOpen={mobileOpen} onCloseMobile={() => setMobileOpen(false)} />
+      <main className="flex-1 min-w-0">
+        <Header page={page} onToggleMobile={() => setMobileOpen(!mobileOpen)} mobileOpen={mobileOpen} />
+        <div className="p-4 md:p-8">
+          {page === 'dashboard' && <Dashboard vehicles={vehicles} fuelRecords={fuelRecords} washRecords={washRecords} onNavigateToVeiculos={() => setPage('veiculos')} />}
+          {page === 'veiculos' && <VeiculosPage vehicles={vehicles} setVehicles={setVehicles} fuelRecords={fuelRecords} washRecords={washRecords} />}
+          {page === 'combustivel' && <CombustivelPage vehicles={vehicles} fuelRecords={fuelRecords} onAddFuel={handleAddFuel} onUpdateVehicleKm={handleUpdateKm} />}
+          {page === 'lavagem' && <LavagemPage vehicles={vehicles} washRecords={washRecords} onAddWash={handleAddWash} />}
+          {page === 'relatorios' && <RelatoriosPage vehicles={vehicles} fuelRecords={fuelRecords} washRecords={washRecords} />}
+        </div>
+      </main>
 
-      {/* Tela inteira com display flex */}
-      <Box sx={{ display: 'flex', minHeight: '100vh' }}>
-
-        {/* SIDEBAR (Corrigido: background.paper com 'b' minúsculo) */}
-        <Box sx={{ width: 200, bgcolor: 'background.paper', borderRight: '1px solid #1E293B' }}>
-          <Typography variant="h6" sx={{fontSize:25, p: 2, fontWeight: 'bold', color: 'primary.main' }}>
-            Frota IVRNET
-          </Typography>
-
-          <List>
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => setTelaAtual('dashboard')}>
-                <ListItemIcon><Dashboard color="primary" /></ListItemIcon>
-                <ListItemText primary="Dashboard"
-                sx={{ '& .MuiListItemText-primary': { fontSize:'20px', fontWeight:'500'}}}/>
-              </ListItemButton>
-            </ListItem>
-
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => setTelaAtual('combustivel')}>
-                <ListItemIcon><GasStationIcon color="primary" /></ListItemIcon>
-                <ListItemText primary="Combustível"sx={{ '& .MuiListItemText-primary': { fontSize:'20px', fontWeight:'500'}}} />
-              </ListItemButton>
-            </ListItem>
-
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => setTelaAtual('lavagem')}>
-                <ListItemIcon><CarWashIcon color="primary" /></ListItemIcon>
-                <ListItemText primary="Lavagem" sx={{ '& .MuiListItemText-primary': { fontSize:'20px', fontWeight:'500'}}}/>
-              </ListItemButton>
-            </ListItem>
-
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => setTelaAtual('relatorios')}>
-                <ListItemIcon><BarChartIcon color="primary" /></ListItemIcon>
-                <ListItemText primary="Relatórios" sx={{ '& .MuiListItemText-primary': { fontSize:'20px', fontWeight:'500'}}}/>
-              </ListItemButton>
-            </ListItem>
-          </List>
-        </Box>
-
-        {/* CONTEÚDO PRINCIPAL */}
-        <Box sx={{ flexGrow: 1, p: 4 }}>
-
-          {/* TELA 1: DASHBOARD */}
-          {telaAtual === 'dashboard' && (
-            <Box>
-              <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>Dashboard Principal</Typography>
-              <Typography color="text.secondary">Bem-vindo ao sistema de relatórios de frota</Typography>
-            </Box>
-          )}
-
-          {/* TELA 2: COMBUSTÍVEL */}
-          {telaAtual === 'combustivel' && (
-            <Box sx={{
-              flexGrow: 1,
-              p: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              border: '1px solid #1E293B',
-              borderRadius:3,
-              bgcolor:'background.paper',
-            }}>
-              <Typography variant="h4" sx={{ mb: 3, fontWeight: 'bold' }}>
-                ⛽ Registrar Combustível
-              </Typography>
-
-              <Grid container spacing={2}>
-                <Grid size={{ xs: 6 }}>
-                  <TextField fullWidth label="Placa do Veículo" variant="outlined" placeholder="ABC-1234" />
-                </Grid>
-
-                <Grid size={{ xs: 6 }}>
-                  <TextField fullWidth select label="Modelo do carro" value={ModeloCarroCombustivel} onChange={(e) => setModeloCarroCombustivel(e.target.value)}>
-                    <MenuItem value="strada">Fiat Strada</MenuItem>
-                    <MenuItem value="mobi">Fiat Mobi</MenuItem>
-                    <MenuItem value="saveiro">Volkswagen Saveiro</MenuItem>
-                    <MenuItem value="hilux">Toyota Hilux</MenuItem>
-                  </TextField>
-                </Grid>
-
-                <Grid size={{ xs: 6 }}>
-                  <TextField fullWidth label="Quilometragem (KM)" type="number" variant="outlined" />
-                </Grid>
-
-                <Grid size={{ xs: 6 }}>
-                  <TextField fullWidth label="Litros Abastecidos" type="number" variant="outlined" />
-                </Grid>
-
-                <Grid size={{ xs: 12 }}>
-                  <TextField fullWidth label="Valor Total (R$)" type="number" variant="outlined" />
-                </Grid>
-
-                <Grid size={{ xs: 12 }}>
-                  <Button fullWidth variant="contained" color="primary" size="large" sx={{ mt: 2 }}>
-                    Salvar Registro
-                  </Button>
-                </Grid>
-              </Grid> {/* Fechamento correto do container do Grid */}
-            </Box>
-          )}
-
-          {/* TELA 3: LAVAGEM */}
-          {telaAtual === 'lavagem' && (
-            <Box sx={{ maxWidth: 600 }}>
-              <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>
-                🧼 Registrar Lavagem
-              </Typography>
-
-              <Grid container spacing={2}>
-                <Grid size={{ xs: 6 }}>
-                  <TextField fullWidth label="Placa do Veículo" variant="outlined" placeholder="ABC-1234" />
-                </Grid>
-
-                <Grid size={{ xs: 6 }}>
-                  <TextField fullWidth select label="Modelo do carro" value={ModeloCarroLavagem} onChange={(e) => setModeloCarroLavagem(e.target.value)}>
-                    <MenuItem value="strada">Fiat Strada</MenuItem>
-                    <MenuItem value="mobi">Fiat Mobi</MenuItem>
-                    <MenuItem value="saveiro">Volkswagen Saveiro</MenuItem>
-                    <MenuItem value="hilux">Toyota Hilux</MenuItem>
-                  </TextField>
-                </Grid>
-
-                <Grid size={{ xs: 12 }}>
-                  <TextField fullWidth label="Quilometragem [KM]" variant="outlined" type="number" />
-                </Grid>
-
-                <Grid size={{ xs: 12 }}>
-                  <TextField fullWidth label="Valor da Lavagem [R$]" variant="outlined" type="number" />
-                </Grid>
-
-                <Grid size={{ xs: 12 }}>
-                  <Button fullWidth variant="contained" color="primary" size="large" sx={{ mt: 2 }}>
-                    Salvar Lavagem
-                  </Button>
-                </Grid>
-              </Grid>
-            </Box>
-          )}
-        </Box>
-      </Box>
-    </ThemeProvider>
+      {snack.open && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-[#111827] border border-[#1E293B] rounded-2xl px-5 py-4 shadow-2xl animate-[slideUp_0.3s_ease]">
+          <div className="w-9 h-9 rounded-xl bg-emerald-500/15 flex items-center justify-center"><CheckCircle2 className="w-5 h-5 text-emerald-400" /></div>
+          <p className="text-[13px] font-semibold pr-2">{snack.msg}</p>
+          <button onClick={() => setSnack({ open: false, msg: '' })} className="w-7 h-7 rounded-lg hover:bg-white/10 flex items-center justify-center"><X className="w-4 h-4 text-[#64748B]" /></button>
+        </div>
+      )}
+      <style>{`@keyframes slideUp { from { transform: translateY(12px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }`}</style>
+    </div>
   );
 }
