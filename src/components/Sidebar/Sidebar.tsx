@@ -12,6 +12,12 @@ function Sidebar() {
           <p className="text-slate-400 text-1xl leading-none">Gestao de despesas</p>
         </div>
       </div>
+      <nav>
+        <a href="/">Visão geral</a>
+        <a href="/abastecimentos">Abastecimento</a>
+        <a href="/manutencao">Manutenção</a>
+        <a href="/mediaKm">Média KM/L</a>
+      </nav>
     </aside>
   );
 }
