@@ -1,24 +1,19 @@
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
-import Sidebar from "./components/Sidebar/Sidebar";
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
 
 function App() {
-
-  const [sidebarAberta, setSidebarAberta] = useState(false);
-
   return (
-    <div>
+    <div className="flex min-h-screen">
 
-      {/* Botão */}
-      <button
-        onClick={() => setSidebarAberta(!sidebarAberta)}
-        className="fixed top-4 left-4 z-50 p-2 rounded-lg bg-blue-500 text-white"
-      >
-        {sidebarAberta ? <X size={24} /> : <Menu size={24} />}
-      </button>
+      <Sidebar />
 
-      {/* Sidebar */}
-      {sidebarAberta && <Sidebar />}
+      <div className="flex-1">
+        <Header />
+
+        <main>
+          {/* conteúdo das páginas */}
+        </main>
+      </div>
 
     </div>
   );
