@@ -3,7 +3,7 @@ import {
   LucideHome,
   Droplet,
   Wrench,
-  FileChartColumn,
+  Activity,
   Settings,
 } from "lucide-react";
 
@@ -16,7 +16,7 @@ function Sidebar() {
       {/* Logo e título */}
       <div className="flex items-center gap-3">
 
-        <div className="bg-blue-500 p-2 rounded-lg w-10 h-10 ml-3 flex items-center justify-center">
+        <div className="bg-blue-500 p-2 w-10 h-10 ml-3 flex items-center justify-center rounded-md">
           <LucideTruck size={23} />
         </div>
 
@@ -33,7 +33,7 @@ function Sidebar() {
       </div>
 
       {/* Menu principal */}
-      <nav className="flex flex-col gap-3.5 mt-5">
+      <nav className="flex flex-col gap-3.5 mt-10">
 
         <NavLink
           to="/"
@@ -75,8 +75,8 @@ function Sidebar() {
             ${isActive ? "bg-blue-500" : "hover:bg-slate-800"}`
           }
         >
-          <FileChartColumn size={20} />
-          <span>Relatórios</span>
+          <Activity size={20} />
+          <span>Média K/m</span>
         </NavLink>
 
       </nav>
@@ -85,7 +85,7 @@ function Sidebar() {
       <div className="border-t border-slate-700 mt-3 w-60 ml-4" />
 
       {/* Configurações */}
-      <nav className="mt-3">
+      <nav className="mt-8">
 
         <NavLink
           to="/configuracoes"
