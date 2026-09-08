@@ -14,7 +14,7 @@ function Sidebar() {
     <aside className="h-screen w-70 shrink-0 bg-[#0F172A] text-white">
 
       {/* Logo e título */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 mt-2">
 
         <div className="bg-blue-500 p-2 w-10 h-10 ml-3 flex items-center justify-center rounded-md">
           <LucideTruck size={23} />
