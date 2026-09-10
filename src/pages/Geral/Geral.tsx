@@ -33,37 +33,7 @@ function Geral() {
       filial: "Matriz",
       litros: "784,48 L",
       total: 5241.29,
-    },
-    {
-      filial: "Aquidauana/Anastácio",
-      litros: "472,45 L",
-      total: 3112.98,
-    },
-    {
-      filial: "Dois Irmãos do Buriti",
-      litros: "46,62 L",
-      total: 310.49,
-    },
-    {
-      filial: "Nioaque",
-      litros: "33,62 L",
-      total: 232.14,
-    },
-    {
-      filial: "Jardim/Guia Lopes",
-      litros: "135,21 L",
-      total: 931.59,
-    },
-    {
-      filial: "Bonito",
-      litros: "131,89 L",
-      total: 924.22,
-    },
-    {
-      filial: "Bodoquena",
-      litros: "41,00 L",
-      total: 307.09,
-    },
+    }
   ];
 
   const lavagem = [
@@ -71,37 +41,7 @@ function Geral() {
       filial: "Matriz",
       quantidade: 4,
       total: 210,
-    },
-    {
-      filial: "Aquidauana/Anastácio",
-      quantidade: 11,
-      total: 660,
-    },
-    {
-      filial: "Dois Irmãos do Buriti",
-      quantidade: 0,
-      total: 0,
-    },
-    {
-      filial: "Nioaque",
-      quantidade: 1,
-      total: 80,
-    },
-    {
-      filial: "Jardim/Guia Lopes",
-      quantidade: 1,
-      total: 80,
-    },
-    {
-      filial: "Bonito",
-      quantidade: 0,
-      total: 0,
-    },
-    {
-      filial: "Bodoquena",
-      quantidade: 0,
-      total: 0,
-    },
+    }
   ];
 
   const totalLitros = 1645.27;

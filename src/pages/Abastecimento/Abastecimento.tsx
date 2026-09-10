@@ -8,105 +8,6 @@ function Abastecimento() {
 
   const registros = [
     {
-      placa: "SMJ-7A36",
-      veiculo: "Saveiro",
-      motorista: "João",
-      filial: "Matriz",
-      litros: 50,
-      data: "02/09/2026",
-      valor: 300,
-    },
-    {
-      placa: "ABC-1234",
-      veiculo: "Gol",
-      motorista: "Carlos",
-      filial: "Jardim",
-      litros: 45,
-      data: "03/09/2026",
-      valor: 270,
-    },
-    {
-      placa: "DEF-5678",
-      veiculo: "Strada",
-      motorista: "Pedro",
-      filial: "Aquidauana",
-      litros: 60,
-      data: "03/09/2026",
-      valor: 360,
-    },
-    {
-      placa: "GHI-9012",
-      veiculo: "Saveiro",
-      motorista: "Lucas",
-      filial: "Nioaque",
-      litros: 48,
-      data: "04/09/2026",
-      valor: 288,
-    },
-    {
-      placa: "JKL-3456",
-      veiculo: "Fiorino",
-      motorista: "Marcos",
-      filial: "Bonito",
-      litros: 52,
-      data: "04/09/2026",
-      valor: 312,
-    },
-    {
-      placa: "MNO-7890",
-      veiculo: "Saveiro",
-      motorista: "Rafael",
-      filial: "Matriz",
-      litros: 55,
-      data: "05/09/2026",
-      valor: 330,
-    },
-    {
-      placa: "PQR-1234",
-      veiculo: "Strada",
-      motorista: "André",
-      filial: "Jardim",
-      litros: 42,
-      data: "05/09/2026",
-      valor: 252,
-    },
-    {
-      placa: "STU-5678",
-      veiculo: "Gol",
-      motorista: "Felipe",
-      filial: "Matriz",
-      litros: 50,
-      data: "06/09/2026",
-      valor: 300,
-    },
-    {
-      placa: "VWX-9012",
-      veiculo: "Saveiro",
-      motorista: "Bruno",
-      filial: "Bonito",
-      litros: 47,
-      data: "06/09/2026",
-      valor: 282,
-    },
-    {
-      placa: "YZA-3456",
-      veiculo: "Fiorino",
-      motorista: "Gustavo",
-      filial: "Nioaque",
-      litros: 53,
-      data: "07/09/2026",
-      valor: 318,
-    },
-    {
-      placa: "BCD-7890",
-      veiculo: "Strada",
-      motorista: "Thiago",
-      filial: "Matriz",
-      litros: 49,
-      data: "07/09/2026",
-      valor: 294,
-    },
-    {
       placa: "EFG-1234",
       veiculo: "Saveiro",
       motorista: "Daniel",
@@ -114,7 +15,7 @@ function Abastecimento() {
       litros: 51,
       data: "08/09/2026",
       valor: 306,
-    },
+    }
   ];
 
 
@@ -345,7 +246,7 @@ function Abastecimento() {
                 className="grid grid-cols-7 items-center h-12 px-4 bg-white text-slate-800 text-sm border-b border-slate-200"
               >
 
-                <span>{registro.placa}</span>
+                <span className="bg-slate-200 px-3 py-1 rounded-md font-semibold w-22.5">{registro.placa}</span>
 
                 <span>{registro.veiculo}</span>
 

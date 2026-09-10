@@ -11,42 +11,7 @@ function Media() {
       motorista: "RAFAEL",
       mediaKmL: 6.6,
       mediaGeral: 6.6,
-    },
-    {
-      placa: "SMG-3J82",
-      veiculo: "SAVEIRO ROBUST 2025",
-      motorista: "JEFFERSON",
-      mediaKmL: 6.6,
-      mediaGeral: 6.6,
-    },
-    {
-      placa: "SMG-3J83",
-      veiculo: "SAVEIRO ROBUST 2025",
-      motorista: "EDSON",
-      mediaKmL: 6.6,
-      mediaGeral: 6.6,
-    },
-    {
-      placa: "SMJ-7A36",
-      veiculo: "SAVEIRO ROBUST 2025",
-      motorista: "CHRISTIAN",
-      mediaKmL: 6.6,
-      mediaGeral: 6.6,
-    },
-    {
-      placa: "SMJ-1D19",
-      veiculo: "HILUX CD SRVA 2025",
-      motorista: "IVRNET",
-      mediaKmL: 6.47,
-      mediaGeral: 6.6,
-    },
-    {
-      placa: "RWE-7D00",
-      veiculo: "BMW 320I M SPORT",
-      motorista: "HENRIQUE",
-      mediaKmL: 6.99,
-      mediaGeral: 6.6,
-    },
+    }
   ];
 
    const [limite, setLimite] = useState(3);

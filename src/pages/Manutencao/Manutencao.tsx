@@ -15,106 +15,7 @@ function Manutencao() {
       data: "02/09/2026",
       descricao: "Troca de óleo",
       valor: 300,
-    },
-    {
-      placa: "ABC-1234",
-      veiculo: "Gol",
-      motorista: "Carlos",
-      quantidade: 2,
-      data: "03/09/2026",
-      descricao: "Troca de pastilhas",
-      valor: 450,
-    },
-    {
-      placa: "DEF-5678",
-      veiculo: "Strada",
-      motorista: "Pedro",
-      quantidade: 1,
-      data: "04/09/2026",
-      descricao: "Alinhamento",
-      valor: 180,
-    },
-    {
-      placa: "GHI-9012",
-      veiculo: "Saveiro",
-      motorista: "Lucas",
-      quantidade: 1,
-      data: "05/09/2026",
-      descricao: "Troca de filtro de ar",
-      valor: 120,
-    },
-    {
-      placa: "JKL-3456",
-      veiculo: "Fiorino",
-      motorista: "Marcos",
-      quantidade: 4,
-      data: "06/09/2026",
-      descricao: "Troca de pneus",
-      valor: 1600,
-    },
-    {
-      placa: "MNO-7890",
-      veiculo: "Strada",
-      motorista: "Rafael",
-      quantidade: 1,
-      data: "07/09/2026",
-      descricao: "Balanceamento",
-      valor: 150,
-    },
-    {
-      placa: "PQR-1234",
-      veiculo: "Gol",
-      motorista: "André",
-      quantidade: 1,
-      data: "08/09/2026",
-      descricao: "Troca de bateria",
-      valor: 580,
-    },
-    {
-      placa: "STU-5678",
-      veiculo: "Saveiro",
-      motorista: "Felipe",
-      quantidade: 2,
-      data: "09/09/2026",
-      descricao: "Troca de amortecedores",
-      valor: 850,
-    },
-    {
-      placa: "VWX-9012",
-      veiculo: "Fiorino",
-      motorista: "Bruno",
-      quantidade: 1,
-      data: "10/09/2026",
-      descricao: "Revisão preventiva",
-      valor: 400,
-    },
-    {
-      placa: "YZA-3456",
-      veiculo: "Strada",
-      motorista: "Gustavo",
-      quantidade: 3,
-      data: "11/09/2026",
-      descricao: "Troca de correia",
-      valor: 720,
-    },
-    {
-      placa: "BCD-7890",
-      veiculo: "Saveiro",
-      motorista: "Thiago",
-      quantidade: 1,
-      data: "12/09/2026",
-      descricao: "Reparo no sistema de freios",
-      valor: 650,
-    },
-    {
-      placa: "EFG-1234",
-      veiculo: "Gol",
-      motorista: "Daniel",
-      quantidade: 2,
-      data: "13/09/2026",
-      descricao: "Troca de lâmpadas",
-      valor: 90,
-    },
+    }
   ];
 
    const [limite, setLimite] = useState(3);
@@ -346,7 +247,7 @@ function Manutencao() {
                 className="grid grid-cols-7 items-center h-12 px-4 bg-white text-slate-800 text-sm border-b border-slate-200"
               >
 
-                <span>{registro.placa}</span>
+                <span className="bg-slate-200 px-3 py-1 w-23.5 rounded-md font-semibold">{registro.placa}</span>
 
                 <span>{registro.veiculo}</span>
 
