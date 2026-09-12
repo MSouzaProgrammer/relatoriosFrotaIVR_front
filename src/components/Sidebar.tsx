@@ -5,6 +5,9 @@ import {
   Wrench,
   Activity,
   Settings,
+  LucideCar,
+  LucideBuilding2
+
 } from "lucide-react";
 
 import { NavLink } from "react-router-dom";
@@ -25,11 +28,7 @@ function Sidebar() {
       xl:text-xs
       2xl:text-sm
       transition-colors
-      ${
-        isActive
-          ? "bg-blue-500"
-          : "hover:bg-slate-800"
-      }
+      ${isActive ? "bg-blue-500" : "hover:bg-slate-800"}
     `;
 
   return (
@@ -54,7 +53,6 @@ function Sidebar() {
         text-white
       "
     >
-
       {/* LOGO */}
       <div
         className="
@@ -70,7 +68,6 @@ function Sidebar() {
           2xl:pt-5
         "
       >
-
         <div
           className="
             bg-blue-500
@@ -91,16 +88,15 @@ function Sidebar() {
             size={19}
             strokeWidth={2.5}
             className="
-              xl:w-[21px]
-              xl:h-[21px]
-              2xl:w-[23px]
-              2xl:h-[23px]
+              xl:w-5.25
+              xl:h-5.25
+              2xl:w-5.75
+              2xl:h-5.75
             "
           />
         </div>
 
         <div className="min-w-0">
-
           <h1
             className="
               text-xs
@@ -126,9 +122,7 @@ function Sidebar() {
           >
             Gestão de despesas
           </p>
-
         </div>
-
       </div>
 
       {/* MENU */}
@@ -145,63 +139,29 @@ function Sidebar() {
           xl:px-3
         "
       >
+        <NavLink to="/" className={linkClass}>
+          <LucideHome size={17} strokeWidth={2.3} />
 
-        <NavLink
-          to="/"
-          className={linkClass}
-        >
-          <LucideHome
-            size={17}
-            strokeWidth={2.3}
-          />
-
-          <span>
-            Visão geral
-          </span>
+          <span>Visão geral</span>
         </NavLink>
 
-        <NavLink
-          to="/abastecimentos"
-          className={linkClass}
-        >
-          <Droplet
-            size={17}
-            strokeWidth={2.3}
-          />
+        <NavLink to="/abastecimentos" className={linkClass}>
+          <Droplet size={17} strokeWidth={2.3} />
 
-          <span>
-            Abastecimento
-          </span>
+          <span>Abastecimento</span>
         </NavLink>
 
-        <NavLink
-          to="/manutencao"
-          className={linkClass}
-        >
-          <Wrench
-            size={17}
-            strokeWidth={2.3}
-          />
+        <NavLink to="/manutencao" className={linkClass}>
+          <Wrench size={17} strokeWidth={2.3} />
 
-          <span>
-            Manutenção
-          </span>
+          <span>Manutenção</span>
         </NavLink>
 
-        <NavLink
-          to="/relatorio"
-          className={linkClass}
-        >
-          <Activity
-            size={17}
-            strokeWidth={2.3}
-          />
+        <NavLink to="/relatorio" className={linkClass}>
+          <Activity size={17} strokeWidth={2.3} />
 
-          <span>
-            Média KM/L
-          </span>
+          <span>Média KM/L</span>
         </NavLink>
-
       </nav>
 
       {/* SEPARADOR */}
@@ -221,30 +181,35 @@ function Sidebar() {
       {/* CONFIGURAÇÕES */}
       <nav
         className="
-          mt-3
-          xl:mt-4
-          2xl:mt-5
+          flex flex-col
+          gap-1
+          xl:gap-2
+          2xl:gap-2.5
+          mt-7
+          xl:mt-8
+          2xl:mt-6
           px-2.5
           xl:px-3
         "
       >
+        <NavLink to="/veiculos" className={linkClass}>
+          <LucideCar size={17} strokeWidth={2.3} />
 
-        <NavLink
-          to="/configuracoes"
-          className={linkClass}
-        >
-          <Settings
-            size={17}
-            strokeWidth={2.3}
-          />
-
-          <span>
-            Configurações
-          </span>
+          <span>Veículos</span>
         </NavLink>
 
-      </nav>
+        <NavLink to="/filiais" className={linkClass}>
+          <LucideBuilding2 size={17} strokeWidth={2.3} />
 
+          <span>Filiais</span>
+        </NavLink>
+
+        <NavLink to="/configuracoes" className={linkClass}>
+          <Settings size={17} strokeWidth={2.3} />
+
+          <span>Configurações</span>
+        </NavLink>
+      </nav>
     </aside>
   );
 }

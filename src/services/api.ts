@@ -1,10 +1,10 @@
-const API_URL = "http://localhost:8080";
+const API_URL = "http://192.168.30.16:8080";
 
 async function api<T>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   const headers = new Headers(options.headers);
 

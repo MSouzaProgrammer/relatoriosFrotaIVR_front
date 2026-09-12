@@ -8,8 +8,10 @@ import Dashboard from "./pages/Geral/Geral";
 import Abastecimento from "./pages/Abastecimento/Abastecimento";
 import Manutencao from "./pages/Manutencao/Manutencao";
 import Relatorios from "./pages/Media/Media";
+import Veiculos from "./pages/Veiculos/Veiculos"
 import Configuracoes from "./pages/Configuracoes/Configuracoes";
 import Login from "./pages/Login";
+import Filiais from "./pages/Filiais/Filiais";
 
 function Layout() {
   return (
@@ -29,6 +31,10 @@ function Layout() {
 
             <Route path="/relatorio" element={<Relatorios />} />
 
+            <Route path="/filiais" element={<Filiais />} />
+
+            <Route path="veiculos" element={<Veiculos />} />
+
             <Route path="/configuracoes" element={<Configuracoes />} />
           </Routes>
         </main>
@@ -40,10 +46,8 @@ function Layout() {
 function App() {
   return (
     <Routes>
-      {/* LOGIN */}
       <Route path="/login" element={<Login />} />
 
-      {/* ÁREA PROTEGIDA */}
       <Route element={<PrivateRoute />}>
         <Route path="*" element={<Layout />} />
       </Route>

@@ -35,7 +35,7 @@ function Header() {
             2xl:h-11
             flex-1
             min-w-0
-            max-w-[420px]
+            max-w-105
             bg-[#F1F5F9]
             rounded-lg
             px-2.5

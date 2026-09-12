@@ -1,7 +1,5 @@
 import {
   User,
-  Building2,
-  Car,
   Shield,
   Settings as SettingsIcon,
   Bell,
@@ -96,7 +94,7 @@ function Configuracoes() {
               >
                 <User
                   size={16}
-                  className="text-blue-600 2xl:w-[22px] 2xl:h-[22px]"
+                  className="text-blue-600 2xl:w-5.5l:h-[22px]"
                   strokeWidth={2.5}
                 />
               </div>
@@ -269,7 +267,7 @@ function Configuracoes() {
             >
               <Shield
                 size={16}
-                className="text-red-600 2xl:w-[22px] 2xl:h-[22px]"
+                className="text-red-600 2xl:w-5.5 2xl:h-5.5"
                 strokeWidth={2.5}
               />
             </div>
@@ -382,213 +380,6 @@ function Configuracoes() {
           </div>
         </div>
 
-        {/* FILIAIS */}
-        <div
-          className="
-            bg-white
-            border border-slate-200
-            rounded-lg
-            p-2.5
-            lg:p-3
-            2xl:p-5
-          "
-        >
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 lg:gap-2.5 2xl:gap-3 min-w-0">
-              <div
-                className="
-                  w-8 h-8
-                  lg:w-9 lg:h-9
-                  2xl:w-11 2xl:h-11
-                  rounded-md
-                  bg-green-100
-                  flex items-center justify-center
-                  shrink-0
-                "
-              >
-                <Building2
-                  size={16}
-                  className="text-green-600 2xl:w-[22px] 2xl:h-[22px]"
-                  strokeWidth={2.5}
-                />
-              </div>
-
-              <div className="min-w-0">
-                <h2
-                  className="
-                    text-xs
-                    lg:text-sm
-                    2xl:text-lg
-                    font-bold
-                    text-slate-900
-                  "
-                >
-                  Filiais
-                </h2>
-
-                <p
-                  className="
-                    text-[9px]
-                    lg:text-[10px]
-                    2xl:text-sm
-                    text-slate-500
-                    truncate
-                  "
-                >
-                  Gerencie as filiais do sistema
-                </p>
-              </div>
-            </div>
-
-            <span
-              className="
-                text-[9px]
-                lg:text-[10px]
-                2xl:text-sm
-                font-semibold
-                text-slate-500
-                shrink-0
-              "
-            >
-              7 ativas
-            </span>
-          </div>
-
-          <button
-            className="
-              mt-2.5
-              lg:mt-3
-              2xl:mt-4
-              w-full
-              h-8
-              lg:h-9
-              2xl:h-10
-              flex
-              items-center
-              justify-between
-              px-2
-              lg:px-2.5
-              2xl:px-3
-              border border-slate-200
-              rounded-md
-              hover:bg-slate-50
-              cursor-pointer
-            "
-          >
-            <span
-              className="
-                text-[10px]
-                lg:text-[11px]
-                2xl:text-sm
-                text-slate-700
-              "
-            >
-              Gerenciar filiais
-            </span>
-
-            <ChevronRight
-              size={15}
-              className="text-slate-400"
-            />
-          </button>
-        </div>
-
-        {/* VEÍCULOS */}
-        <div
-          className="
-            bg-white
-            border border-slate-200
-            rounded-lg
-            p-2.5
-            lg:p-3
-            2xl:p-5
-          "
-        >
-          <div className="flex items-center gap-2.5">
-            <div
-              className="
-                w-8 h-8
-                lg:w-9 lg:h-9
-                2xl:w-11 2xl:h-11
-                rounded-md
-                bg-purple-100
-                flex items-center justify-center
-                shrink-0
-              "
-            >
-              <Car
-                size={16}
-                className="text-purple-600 2xl:w-[22px] 2xl:h-[22px]"
-                strokeWidth={2.5}
-              />
-            </div>
-
-            <div className="min-w-0">
-              <h2
-                className="
-                  text-xs
-                  lg:text-sm
-                  2xl:text-lg
-                  font-bold
-                  text-slate-900
-                "
-              >
-                Veículos
-              </h2>
-
-              <p
-                className="
-                  text-[9px]
-                  lg:text-[10px]
-                  2xl:text-sm
-                  text-slate-500
-                  truncate
-                "
-              >
-                Cadastre e gerencie os veículos
-              </p>
-            </div>
-          </div>
-
-          <button
-            className="
-              mt-2.5
-              lg:mt-3
-              2xl:mt-4
-              w-full
-              h-8
-              lg:h-9
-              2xl:h-10
-              flex
-              items-center
-              justify-between
-              px-2
-              lg:px-2.5
-              2xl:px-3
-              border border-slate-200
-              rounded-md
-              hover:bg-slate-50
-              cursor-pointer
-            "
-          >
-            <span
-              className="
-                text-[10px]
-                lg:text-[11px]
-                2xl:text-sm
-                text-slate-700
-              "
-            >
-              Gerenciar veículos
-            </span>
-
-            <ChevronRight
-              size={15}
-              className="text-slate-400"
-            />
-          </button>
-        </div>
-
         {/* SISTEMA */}
         <div
           className="
@@ -616,7 +407,7 @@ function Configuracoes() {
             >
               <SettingsIcon
                 size={16}
-                className="text-slate-600 2xl:w-[22px] 2xl:h-[22px]"
+                className="text-slate-600 2xl:w-5.5 2xl:h-5.5"
                 strokeWidth={2.5}
               />
             </div>

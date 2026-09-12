@@ -1,7 +1,4 @@
 import { useState } from "react";
-
-import api from "../services/api";
-
 import {
   Truck,
   Eye,
@@ -9,6 +6,8 @@ import {
   Mail,
   LockKeyhole,
 } from "lucide-react";
+
+import api from "../services/api";
 
 interface LoginResponse {
   token: string;
@@ -26,28 +25,28 @@ function Login() {
   const [carregando, setCarregando] = useState(false);
 
   async function fazerLogin() {
-  try {
-    setErro("");
-    setCarregando(true);
+    try {
+      setErro("");
+      setCarregando(true);
 
-    const resposta = await api<LoginResponse>("/auth/login", {
-      method: "POST",
-      body: JSON.stringify({
-        email,
-        password: senha,
-      }),
-    });
+      const resposta = await api<LoginResponse>("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          password: senha,
+        }),
+      });
 
-    localStorage.setItem("token", resposta.token);
+      sessionStorage.setItem("token", resposta.token);
 
-    window.location.href = "/";
-  } catch (error) {
-    console.error(error);
-    setErro("E-mail ou senha inválidos.");
-  } finally {
-    setCarregando(false);
+      window.location.href = "/";
+    } catch (error) {
+      console.error(error);
+      setErro("E-mail ou senha inválidos.");
+    } finally {
+      setCarregando(false);
+    }
   }
-}
 
   function pressionouEnter(
     event: React.KeyboardEvent<HTMLInputElement>

@@ -217,7 +217,7 @@ function Media() {
       {/* TABELA */}
       <div className="mt-6 w-full overflow-x-auto rounded-md border border-slate-300">
 
-        <div className="min-w-[850px]">
+        <div className="min-w-212.5">
 
           {/* CABEÇALHO */}
           <div className="grid grid-cols-5 items-center bg-slate-200 h-10 px-4 text-slate-600 text-sm font-medium">
