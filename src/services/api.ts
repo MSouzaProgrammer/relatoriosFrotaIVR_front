@@ -4,6 +4,7 @@ async function api<T>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
+
   const token = sessionStorage.getItem("token");
 
   const headers = new Headers(options.headers);
@@ -20,10 +21,32 @@ async function api<T>(
   });
 
   if (!response.ok) {
-    throw new Error(`Erro HTTP: ${response.status}`);
+    let mensagem = `Erro HTTP: ${response.status}`;
+
+    try {
+      const erro = await response.json();
+
+      if (erro?.message) {
+        mensagem = erro.message;
+      }
+    } catch {
+      // resposta sem JSON
+    }
+
+    throw new Error(mensagem);
   }
 
-  return response.json();
+  if (response.status === 204) {
+    return undefined as T;
+  }
+
+  const texto = await response.text();
+
+  if (!texto) {
+    return undefined as T;
+  }
+
+  return JSON.parse(texto);
 }
 
 export default api;

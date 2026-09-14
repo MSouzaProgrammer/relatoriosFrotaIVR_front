@@ -6,7 +6,7 @@ import {
   Activity,
   Settings,
   LucideCar,
-  LucideBuilding2
+  UserRound
 
 } from "lucide-react";
 
@@ -198,10 +198,10 @@ function Sidebar() {
           <span>Veículos</span>
         </NavLink>
 
-        <NavLink to="/filiais" className={linkClass}>
-          <LucideBuilding2 size={17} strokeWidth={2.3} />
+        <NavLink to="/motoristas" className={linkClass}>
+          <UserRound size={17} strokeWidth={2.3} />
 
-          <span>Filiais</span>
+          <span>Motoristas</span>
         </NavLink>
 
         <NavLink to="/configuracoes" className={linkClass}>

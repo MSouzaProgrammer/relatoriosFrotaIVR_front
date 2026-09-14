@@ -10,8 +10,8 @@ import Manutencao from "./pages/Manutencao/Manutencao";
 import Relatorios from "./pages/Media/Media";
 import Veiculos from "./pages/Veiculos/Veiculos"
 import Configuracoes from "./pages/Configuracoes/Configuracoes";
+import Motoristas from "./pages/Motoristas/Motoristas"
 import Login from "./pages/Login";
-import Filiais from "./pages/Filiais/Filiais";
 
 function Layout() {
   return (
@@ -31,9 +31,9 @@ function Layout() {
 
             <Route path="/relatorio" element={<Relatorios />} />
 
-            <Route path="/filiais" element={<Filiais />} />
-
             <Route path="veiculos" element={<Veiculos />} />
+
+            <Route path="motoristas" element={<Motoristas />} />
 
             <Route path="/configuracoes" element={<Configuracoes />} />
           </Routes>

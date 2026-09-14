@@ -1,14 +1,14 @@
-import {  useEffect, useState, type FormEvent } from "react";
-
+import { useEffect, useState, type FormEvent } from "react";
 import { X, CarFront } from "lucide-react";
 
 interface Veiculo {
   id: number;
   placa: string;
-  modelo: string;
+  modelosVeiculos: string;
+  marca: string;
   ano: number;
+  km: number;
   filial: string;
-  motorista: string;
   status: "ATIVO" | "INATIVO";
 }
 
@@ -24,10 +24,11 @@ function BotaoVeiculo({
   onSalvar,
 }: BotaoVeiculoProps) {
   const [placa, setPlaca] = useState("");
-  const [modelo, setModelo] = useState("");
+  const [modelosVeiculos, setModelosVeiculos] = useState("");
+  const [marca, setMarca] = useState("");
   const [ano, setAno] = useState("");
+  const [km, setKm] = useState("");
   const [filial, setFilial] = useState("");
-  const [motorista, setMotorista] = useState("");
   const [status, setStatus] = useState<
     "ATIVO" | "INATIVO"
   >("ATIVO");
@@ -35,17 +36,21 @@ function BotaoVeiculo({
   useEffect(() => {
     if (veiculo) {
       setPlaca(veiculo.placa);
-      setModelo(veiculo.modelo);
+      setModelosVeiculos(
+        veiculo.modelosVeiculos || ""
+      );
+      setMarca(veiculo.marca || "");
       setAno(String(veiculo.ano));
-      setFilial(veiculo.filial);
-      setMotorista(veiculo.motorista);
+      setKm(String(veiculo.km));
+      setFilial(veiculo.filial || "");
       setStatus(veiculo.status);
     } else {
       setPlaca("");
-      setModelo("");
+      setModelosVeiculos("");
+      setMarca("");
       setAno("");
+      setKm("");
       setFilial("");
-      setMotorista("");
       setStatus("ATIVO");
     }
   }, [veiculo]);
@@ -55,20 +60,22 @@ function BotaoVeiculo({
 
     if (
       !placa.trim() ||
-      !modelo.trim() ||
+      !marca ||
+      !modelosVeiculos ||
       !ano ||
-      !filial ||
-      !motorista
+      !km ||
+      !filial
     ) {
       return;
     }
 
     onSalvar({
       placa: placa.trim().toUpperCase(),
-      modelo: modelo.trim(),
+      modelosVeiculos,
+      marca,
       ano: Number(ano),
+      km: Number(km),
       filial,
-      motorista,
       status,
     });
   }
@@ -87,8 +94,6 @@ function BotaoVeiculo({
         px-4
       "
     >
-
-      {/* CARD */}
       <div
         className="
           w-full
@@ -100,7 +105,6 @@ function BotaoVeiculo({
           shadow-2xl
         "
       >
-
         {/* CABEÇALHO */}
         <div
           className="
@@ -114,9 +118,7 @@ function BotaoVeiculo({
             border-slate-200
           "
         >
-
           <div className="flex items-center gap-3">
-
             <div
               className="
                 w-9
@@ -135,7 +137,6 @@ function BotaoVeiculo({
             </div>
 
             <div>
-
               <h2 className="text-base lg:text-lg font-bold text-slate-900">
                 {veiculo
                   ? "Editar veículo"
@@ -147,9 +148,7 @@ function BotaoVeiculo({
                   ? "Altere as informações do veículo."
                   : "Cadastre um novo veículo na frota."}
               </p>
-
             </div>
-
           </div>
 
           <button
@@ -170,12 +169,10 @@ function BotaoVeiculo({
           >
             <X size={18} />
           </button>
-
         </div>
 
         {/* FORMULÁRIO */}
         <form onSubmit={salvar}>
-
           <div className="p-5 space-y-3">
 
             {/* PLACA */}
@@ -213,19 +210,17 @@ function BotaoVeiculo({
               />
             </div>
 
-            {/* MODELO */}
+            {/* MARCA */}
             <div>
               <label className="block text-xs lg:text-sm font-medium text-slate-700 mb-1">
-                Modelo
+                Marca
               </label>
 
-              <input
-                type="text"
-                value={modelo}
+              <select
+                value={marca}
                 onChange={(event) =>
-                  setModelo(event.target.value)
+                  setMarca(event.target.value)
                 }
-                placeholder="Ex: Saveiro Robust"
                 required
                 className="
                   w-full
@@ -238,15 +233,100 @@ function BotaoVeiculo({
                   text-xs
                   lg:text-sm
                   text-slate-700
+                  bg-white
                   outline-none
                   focus:border-blue-500
                   focus:ring-2
                   focus:ring-blue-500/10
+                  cursor-pointer
                 "
-              />
+              >
+                <option value="">
+                  Selecione a marca...
+                </option>
+
+                <option value="FORD">
+                  Ford
+                </option>
+
+                <option value="CHEVROLET">
+                  Chevrolet
+                </option>
+
+                <option value="TOYOTA">
+                  Toyota
+                </option>
+
+                <option value="VOLKSWAGEN">
+                  Volkswagen
+                </option>
+              </select>
             </div>
 
-            {/* ANO / STATUS */}
+            {/* MODELO */}
+            <div>
+              <label className="block text-xs lg:text-sm font-medium text-slate-700 mb-1">
+                Modelo
+              </label>
+
+              <select
+                value={modelosVeiculos}
+                onChange={(event) =>
+                  setModelosVeiculos(
+                    event.target.value
+                  )
+                }
+                required
+                className="
+                  w-full
+                  h-9
+                  lg:h-10
+                  px-3
+                  border
+                  border-slate-300
+                  rounded-lg
+                  text-xs
+                  lg:text-sm
+                  text-slate-700
+                  bg-white
+                  outline-none
+                  focus:border-blue-500
+                  focus:ring-2
+                  focus:ring-blue-500/10
+                  cursor-pointer
+                "
+              >
+                <option value="">
+                  Selecione o modelo...
+                </option>
+
+                <option value="SAVEIRO">
+                  Saveiro
+                </option>
+
+                <option value="STRADA">
+                  Strada
+                </option>
+
+                <option value="RANGER">
+                  Ranger
+                </option>
+
+                <option value="S10">
+                  S10
+                </option>
+
+                <option value="HILUX">
+                  Hilux
+                </option>
+
+                <option value="GOL">
+                  Gol
+                </option>
+              </select>
+            </div>
+
+            {/* ANO / KM */}
             <div className="grid grid-cols-2 gap-3">
 
               <div>
@@ -285,18 +365,18 @@ function BotaoVeiculo({
 
               <div>
                 <label className="block text-xs lg:text-sm font-medium text-slate-700 mb-1">
-                  Status
+                  Quilometragem
                 </label>
 
-                <select
-                  value={status}
+                <input
+                  type="number"
+                  value={km}
                   onChange={(event) =>
-                    setStatus(
-                      event.target.value as
-                        | "ATIVO"
-                        | "INATIVO"
-                    )
+                    setKm(event.target.value)
                   }
+                  placeholder="15000"
+                  min="0"
+                  required
                   className="
                     w-full
                     h-9
@@ -308,22 +388,12 @@ function BotaoVeiculo({
                     text-xs
                     lg:text-sm
                     text-slate-700
-                    bg-white
                     outline-none
                     focus:border-blue-500
                     focus:ring-2
                     focus:ring-blue-500/10
-                    cursor-pointer
                   "
-                >
-                  <option value="ATIVO">
-                    Ativo
-                  </option>
-
-                  <option value="INATIVO">
-                    Inativo
-                  </option>
-                </select>
+                />
               </div>
 
             </div>
@@ -360,51 +430,54 @@ function BotaoVeiculo({
                 "
               >
                 <option value="">
-                  Selecione uma filial
+                  Selecione a filial...
                 </option>
 
-                <option value="Matriz">
-                  Matriz
+                <option value="MATRIZ">
+                  1 - Matriz
                 </option>
 
-                <option value="Jardim">
-                  Jardim
+                <option value="AQUIDAUANA_ANASTACIO">
+                  2 - Aquidauana / Anastácio
                 </option>
 
-                <option value="Aquidauana / Anastácio">
-                  Aquidauana / Anastácio
+                <option value="DOIS_IRMAOS_BURITI">
+                  3 - D.I.B
                 </option>
 
-                <option value="Nioaque">
-                  Nioaque
+                <option value="NIOAQUE">
+                  4 - Nioaque
                 </option>
 
-                <option value="Bonito">
-                  Bonito
+                <option value="JARDIM_GUIA_LOPES">
+                  5 - Jardim / Guia Lopes
                 </option>
 
-                <option value="Dois Irmãos do Buriti">
-                  Dois Irmãos do Buriti
+                <option value="BONITO">
+                  7 - Bonito
                 </option>
 
-                <option value="Bodoquena">
-                  Bodoquena
+                <option value="BODOQUENA">
+                  15 - Bodoquena
                 </option>
               </select>
             </div>
 
-            {/* MOTORISTA */}
+            {/* STATUS */}
             <div>
               <label className="block text-xs lg:text-sm font-medium text-slate-700 mb-1">
-                Motorista principal
+                Status
               </label>
 
               <select
-                value={motorista}
+                value={status}
                 onChange={(event) =>
-                  setMotorista(event.target.value)
+                  setStatus(
+                    event.target.value as
+                      | "ATIVO"
+                      | "INATIVO"
+                  )
                 }
-                required
                 className="
                   w-full
                   h-9
@@ -424,28 +497,15 @@ function BotaoVeiculo({
                   cursor-pointer
                 "
               >
-                <option value="">
-                  Selecione um motorista
+                <option value="ATIVO">
+                  Ativo
                 </option>
 
-                <option value="João">
-                  João
-                </option>
-
-                <option value="Rafael">
-                  Rafael
-                </option>
-
-                <option value="Henrique">
-                  Henrique
-                </option>
-
-                <option value="IVRNET">
-                  IVRNET
+                <option value="INATIVO">
+                  Inativo
                 </option>
               </select>
             </div>
-
           </div>
 
           {/* RODAPÉ */}
@@ -461,7 +521,6 @@ function BotaoVeiculo({
               bg-slate-50
             "
           >
-
             <button
               type="button"
               onClick={onFechar}
@@ -502,13 +561,9 @@ function BotaoVeiculo({
                 ? "Salvar alterações"
                 : "Cadastrar veículo"}
             </button>
-
           </div>
-
         </form>
-
       </div>
-
     </div>
   );
 }
