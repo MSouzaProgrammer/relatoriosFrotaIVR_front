@@ -1,571 +1,586 @@
-import { useEffect, useState, type FormEvent } from "react";
-import { X, CarFront } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Car, X } from "lucide-react";
+
+import api from "../../services/api";
 
 interface Veiculo {
-  id: number;
+  id?: number;
   placa: string;
   modelosVeiculos: string;
   marca: string;
   ano: number;
   km: number;
   filial: string;
-  status: "ATIVO" | "INATIVO";
+  status: string;
 }
 
-interface BotaoVeiculoProps {
-  veiculo: Veiculo | null;
+interface BotaoVeiculosProps {
+  veiculoSelecionado: Veiculo | null;
   onFechar: () => void;
-  onSalvar: (dados: Omit<Veiculo, "id">) => void;
+  onSalvo: () => void;
 }
 
-function BotaoVeiculo({
-  veiculo,
+const marcas = [
+  "FORD",
+  "CHEVROLET",
+  "TOYOTA",
+  "VOLKSWAGEN",
+  "FIAT",
+];
+
+const modelos = [
+  "SAVEIRO",
+  "STRADA",
+  "RANGER",
+  "S10",
+  "HILUX",
+  "GOL",
+];
+
+const filiais = [
+  {
+    valor: "MATRIZ",
+    descricao: "1 - MATRIZ",
+  },
+  {
+    valor: "AQUIDAUANA_ANASTACIO",
+    descricao: "2 - AQUIDAUANA/ANASTACIO",
+  },
+  {
+    valor: "DOIS_IRMAOS_BURITI",
+    descricao: "3 - D.I.B",
+  },
+  {
+    valor: "NIOAQUE",
+    descricao: "4 - NIOAQUE",
+  },
+  {
+    valor: "JARDIM_GUIA_LOPES",
+    descricao: "5 - JARDIM/GUIA LOPES",
+  },
+  {
+    valor: "BONITO",
+    descricao: "7 - BONITO",
+  },
+  {
+    valor: "BODOQUENA",
+    descricao: "15 - BODOQUENA",
+  },
+];
+
+const statusOptions = [
+  "ATIVO",
+  "INATIVO",
+];
+
+export default function BotaoVeiculos({
+  veiculoSelecionado,
   onFechar,
-  onSalvar,
-}: BotaoVeiculoProps) {
+  onSalvo,
+}: BotaoVeiculosProps) {
+
   const [placa, setPlaca] = useState("");
-  const [modelosVeiculos, setModelosVeiculos] = useState("");
+  const [modelo, setModelo] = useState("");
   const [marca, setMarca] = useState("");
   const [ano, setAno] = useState("");
   const [km, setKm] = useState("");
   const [filial, setFilial] = useState("");
-  const [status, setStatus] = useState<
-    "ATIVO" | "INATIVO"
-  >("ATIVO");
+  const [status, setStatus] = useState("ATIVO");
 
+  const [salvando, setSalvando] =
+    useState(false);
+
+  const editando =
+    veiculoSelecionado !== null;
+
+  /*
+   * CARREGA OS DADOS NO FORMULÁRIO
+   */
   useEffect(() => {
-    if (veiculo) {
-      setPlaca(veiculo.placa);
-      setModelosVeiculos(
-        veiculo.modelosVeiculos || ""
+    if (veiculoSelecionado) {
+
+      setPlaca(
+        veiculoSelecionado.placa ?? ""
       );
-      setMarca(veiculo.marca || "");
-      setAno(String(veiculo.ano));
-      setKm(String(veiculo.km));
-      setFilial(veiculo.filial || "");
-      setStatus(veiculo.status);
+
+      setModelo(
+        veiculoSelecionado.modelosVeiculos ??
+          ""
+      );
+
+      setMarca(
+        veiculoSelecionado.marca ?? ""
+      );
+
+      setAno(
+        String(veiculoSelecionado.ano ?? "")
+      );
+
+      setKm(
+        String(veiculoSelecionado.km ?? "")
+      );
+
+      setFilial(
+        veiculoSelecionado.filial ?? ""
+      );
+
+      setStatus(
+        veiculoSelecionado.status ??
+          "ATIVO"
+      );
+
     } else {
+
       setPlaca("");
-      setModelosVeiculos("");
+      setModelo("");
       setMarca("");
       setAno("");
       setKm("");
       setFilial("");
       setStatus("ATIVO");
+
     }
-  }, [veiculo]);
 
-  function salvar(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  }, [veiculoSelecionado]);
 
-    if (
-      !placa.trim() ||
-      !marca ||
-      !modelosVeiculos ||
-      !ano ||
-      !km ||
-      !filial
-    ) {
+  /*
+   * FORMATA PLACA
+   */
+  function formatarPlaca(valor: string) {
+    return valor
+      .toUpperCase()
+      .replace(/[^A-Z0-9]/g, "")
+      .slice(0, 7);
+  }
+
+  /*
+   * FORMATA KM
+   */
+  function formatarKm(valor: string) {
+    return valor
+      .replace(/\D/g, "")
+      .slice(0, 7);
+  }
+
+  /*
+   * SALVAR
+   */
+  async function salvar() {
+
+    const placaLimpa =
+      placa.trim().toUpperCase();
+
+    if (!placaLimpa) {
+      alert("Informe a placa do veículo.");
       return;
     }
 
-    onSalvar({
-      placa: placa.trim().toUpperCase(),
-      modelosVeiculos,
+    if (placaLimpa.length < 7) {
+      alert("Informe uma placa válida.");
+      return;
+    }
+
+    if (!marca) {
+      alert("Selecione a marca.");
+      return;
+    }
+
+    if (!modelo) {
+      alert("Selecione o modelo.");
+      return;
+    }
+
+    if (!ano) {
+      alert("Informe o ano do veículo.");
+      return;
+    }
+
+    if (!km) {
+      alert("Informe a quilometragem.");
+      return;
+    }
+
+    if (!filial) {
+      alert("Selecione a filial.");
+      return;
+    }
+
+    if (!status) {
+      alert("Selecione o status.");
+      return;
+    }
+
+    const anoNumero = Number(ano);
+    const kmNumero = Number(km);
+
+    if (
+      Number.isNaN(anoNumero) ||
+      anoNumero < 1900
+    ) {
+      alert("Informe um ano válido.");
+      return;
+    }
+
+    if (
+      Number.isNaN(kmNumero) ||
+      kmNumero < 0
+    ) {
+      alert("Informe uma quilometragem válida.");
+      return;
+    }
+
+    const payload = {
+      placa: placaLimpa,
+      modelosVeiculos: modelo,
       marca,
-      ano: Number(ano),
-      km: Number(km),
+      ano: anoNumero,
+      km: kmNumero,
       filial,
       status,
-    });
+    };
+
+    try {
+
+      setSalvando(true);
+
+      if (
+        editando &&
+        veiculoSelecionado?.id
+      ) {
+
+        await api(
+          `/veiculos/${veiculoSelecionado.id}`,
+          {
+            method: "PUT",
+            body: JSON.stringify(payload),
+          }
+        );
+
+      } else {
+
+        await api("/veiculos", {
+          method: "POST",
+          body: JSON.stringify(payload),
+        });
+
+      }
+
+      onSalvo();
+      onFechar();
+
+    } catch (erro) {
+
+      console.error(
+        "Erro ao salvar veículo:",
+        erro
+      );
+
+      if (erro instanceof Error) {
+        alert(
+          `Erro ao salvar veículo: ${erro.message}`
+        );
+      } else {
+        alert("Erro ao salvar veículo.");
+      }
+
+    } finally {
+
+      setSalvando(false);
+
+    }
   }
 
   return (
     <div
-      className="
-        fixed
-        inset-0
-        z-50
-        flex
-        items-center
-        justify-center
-        bg-black/40
-        backdrop-blur-sm
-        px-4
-      "
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) {
+          onFechar();
+        }
+      }}
     >
-      <div
-        className="
-          w-full
-          max-w-130
-          max-h-[90vh]
-          overflow-y-auto
-          bg-white
-          rounded-xl
-          shadow-2xl
-        "
-      >
+
+      <div className="w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl">
+
         {/* CABEÇALHO */}
-        <div
-          className="
-            flex
-            items-start
-            justify-between
-            gap-4
-            px-5
-            py-4
-            border-b
-            border-slate-200
-          "
-        >
+        <div className="flex items-center justify-between border-b border-slate-200 px-6 py-5">
+
           <div className="flex items-center gap-3">
-            <div
-              className="
-                w-9
-                h-9
-                rounded-lg
-                bg-blue-100
-                flex
-                items-center
-                justify-center
-              "
-            >
-              <CarFront
-                size={19}
+
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-100">
+              <Car
+                size={22}
                 className="text-blue-600"
               />
             </div>
 
             <div>
-              <h2 className="text-base lg:text-lg font-bold text-slate-900">
-                {veiculo
+
+              <h2 className="text-lg font-bold text-slate-900">
+                {editando
                   ? "Editar veículo"
                   : "Novo veículo"}
               </h2>
 
-              <p className="text-[11px] lg:text-xs text-slate-500 mt-0.5">
-                {veiculo
-                  ? "Altere as informações do veículo."
-                  : "Cadastre um novo veículo na frota."}
+              <p className="text-sm text-slate-500">
+                {editando
+                  ? "Atualize os dados do veículo."
+                  : "Cadastre um novo veículo no sistema."}
               </p>
+
             </div>
+
           </div>
 
           <button
             type="button"
             onClick={onFechar}
-            className="
-              w-8
-              h-8
-              flex
-              items-center
-              justify-center
-              rounded-md
-              text-slate-400
-              hover:bg-slate-100
-              hover:text-slate-700
-              cursor-pointer
-            "
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
           >
-            <X size={18} />
+            <X size={20} />
           </button>
+
         </div>
 
         {/* FORMULÁRIO */}
-        <form onSubmit={salvar}>
-          <div className="p-5 space-y-3">
+        <div className="max-h-[75vh] overflow-y-auto px-6 py-6">
+
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
 
             {/* PLACA */}
-            <div>
-              <label className="block text-xs lg:text-sm font-medium text-slate-700 mb-1">
+            <div className="md:col-span-2">
+
+              <label className="mb-2 block text-sm font-semibold text-slate-700">
                 Placa
               </label>
 
               <input
                 type="text"
                 value={placa}
-                onChange={(event) =>
-                  setPlaca(event.target.value)
+                onChange={(e) =>
+                  setPlaca(
+                    formatarPlaca(
+                      e.target.value
+                    )
+                  )
                 }
-                placeholder="Ex: SMJ-7A36"
-                maxLength={8}
-                required
-                className="
-                  w-full
-                  h-9
-                  lg:h-10
-                  px-3
-                  border
-                  border-slate-300
-                  rounded-lg
-                  text-xs
-                  lg:text-sm
-                  text-slate-700
-                  uppercase
-                  outline-none
-                  focus:border-blue-500
-                  focus:ring-2
-                  focus:ring-blue-500/10
-                "
+                placeholder="ABC1D23"
+                maxLength={7}
+                className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium uppercase text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
               />
+
             </div>
 
             {/* MARCA */}
             <div>
-              <label className="block text-xs lg:text-sm font-medium text-slate-700 mb-1">
+
+              <label className="mb-2 block text-sm font-semibold text-slate-700">
                 Marca
               </label>
 
               <select
                 value={marca}
-                onChange={(event) =>
-                  setMarca(event.target.value)
+                onChange={(e) =>
+                  setMarca(e.target.value)
                 }
-                required
-                className="
-                  w-full
-                  h-9
-                  lg:h-10
-                  px-3
-                  border
-                  border-slate-300
-                  rounded-lg
-                  text-xs
-                  lg:text-sm
-                  text-slate-700
-                  bg-white
-                  outline-none
-                  focus:border-blue-500
-                  focus:ring-2
-                  focus:ring-blue-500/10
-                  cursor-pointer
-                "
+                className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
               >
+
                 <option value="">
-                  Selecione a marca...
+                  Selecione a marca
                 </option>
 
-                <option value="FORD">
-                  Ford
-                </option>
+                {marcas.map((item) => (
+                  <option
+                    key={item}
+                    value={item}
+                  >
+                    {item}
+                  </option>
+                ))}
 
-                <option value="CHEVROLET">
-                  Chevrolet
-                </option>
-
-                <option value="TOYOTA">
-                  Toyota
-                </option>
-
-                <option value="VOLKSWAGEN">
-                  Volkswagen
-                </option>
               </select>
+
             </div>
 
             {/* MODELO */}
             <div>
-              <label className="block text-xs lg:text-sm font-medium text-slate-700 mb-1">
+
+              <label className="mb-2 block text-sm font-semibold text-slate-700">
                 Modelo
               </label>
 
               <select
-                value={modelosVeiculos}
-                onChange={(event) =>
-                  setModelosVeiculos(
-                    event.target.value
-                  )
+                value={modelo}
+                onChange={(e) =>
+                  setModelo(e.target.value)
                 }
-                required
-                className="
-                  w-full
-                  h-9
-                  lg:h-10
-                  px-3
-                  border
-                  border-slate-300
-                  rounded-lg
-                  text-xs
-                  lg:text-sm
-                  text-slate-700
-                  bg-white
-                  outline-none
-                  focus:border-blue-500
-                  focus:ring-2
-                  focus:ring-blue-500/10
-                  cursor-pointer
-                "
+                className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
               >
+
                 <option value="">
-                  Selecione o modelo...
+                  Selecione o modelo
                 </option>
 
-                <option value="SAVEIRO">
-                  Saveiro
-                </option>
+                {modelos.map((item) => (
+                  <option
+                    key={item}
+                    value={item}
+                  >
+                    {item}
+                  </option>
+                ))}
 
-                <option value="STRADA">
-                  Strada
-                </option>
-
-                <option value="RANGER">
-                  Ranger
-                </option>
-
-                <option value="S10">
-                  S10
-                </option>
-
-                <option value="HILUX">
-                  Hilux
-                </option>
-
-                <option value="GOL">
-                  Gol
-                </option>
               </select>
+
             </div>
 
-            {/* ANO / KM */}
-            <div className="grid grid-cols-2 gap-3">
+            {/* ANO */}
+            <div>
 
-              <div>
-                <label className="block text-xs lg:text-sm font-medium text-slate-700 mb-1">
-                  Ano
-                </label>
+              <label className="mb-2 block text-sm font-semibold text-slate-700">
+                Ano
+              </label>
 
-                <input
-                  type="number"
-                  value={ano}
-                  onChange={(event) =>
-                    setAno(event.target.value)
-                  }
-                  placeholder="2025"
-                  min="1900"
-                  max="2100"
-                  required
-                  className="
-                    w-full
-                    h-9
-                    lg:h-10
-                    px-3
-                    border
-                    border-slate-300
-                    rounded-lg
-                    text-xs
-                    lg:text-sm
-                    text-slate-700
-                    outline-none
-                    focus:border-blue-500
-                    focus:ring-2
-                    focus:ring-blue-500/10
-                  "
-                />
-              </div>
+              <input
+                type="number"
+                value={ano}
+                onChange={(e) =>
+                  setAno(
+                    e.target.value
+                      .replace(/\D/g, "")
+                      .slice(0, 4)
+                  )
+                }
+                placeholder="2025"
+                min="1900"
+                max="2100"
+                className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
+              />
 
-              <div>
-                <label className="block text-xs lg:text-sm font-medium text-slate-700 mb-1">
-                  Quilometragem
-                </label>
+            </div>
 
-                <input
-                  type="number"
-                  value={km}
-                  onChange={(event) =>
-                    setKm(event.target.value)
-                  }
-                  placeholder="15000"
-                  min="0"
-                  required
-                  className="
-                    w-full
-                    h-9
-                    lg:h-10
-                    px-3
-                    border
-                    border-slate-300
-                    rounded-lg
-                    text-xs
-                    lg:text-sm
-                    text-slate-700
-                    outline-none
-                    focus:border-blue-500
-                    focus:ring-2
-                    focus:ring-blue-500/10
-                  "
-                />
-              </div>
+            {/* KM */}
+            <div>
+
+              <label className="mb-2 block text-sm font-semibold text-slate-700">
+                Quilometragem
+              </label>
+
+              <input
+                type="text"
+                inputMode="numeric"
+                value={km}
+                onChange={(e) =>
+                  setKm(
+                    formatarKm(
+                      e.target.value
+                    )
+                  )
+                }
+                placeholder="50000"
+                className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
+              />
 
             </div>
 
             {/* FILIAL */}
             <div>
-              <label className="block text-xs lg:text-sm font-medium text-slate-700 mb-1">
+
+              <label className="mb-2 block text-sm font-semibold text-slate-700">
                 Filial
               </label>
 
               <select
                 value={filial}
-                onChange={(event) =>
-                  setFilial(event.target.value)
+                onChange={(e) =>
+                  setFilial(e.target.value)
                 }
-                required
-                className="
-                  w-full
-                  h-9
-                  lg:h-10
-                  px-3
-                  border
-                  border-slate-300
-                  rounded-lg
-                  text-xs
-                  lg:text-sm
-                  text-slate-700
-                  bg-white
-                  outline-none
-                  focus:border-blue-500
-                  focus:ring-2
-                  focus:ring-blue-500/10
-                  cursor-pointer
-                "
+                className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
               >
+
                 <option value="">
-                  Selecione a filial...
+                  Selecione a filial
                 </option>
 
-                <option value="MATRIZ">
-                  1 - Matriz
-                </option>
+                {filiais.map((item) => (
+                  <option
+                    key={item.valor}
+                    value={item.valor}
+                  >
+                    {item.descricao}
+                  </option>
+                ))}
 
-                <option value="AQUIDAUANA_ANASTACIO">
-                  2 - Aquidauana / Anastácio
-                </option>
-
-                <option value="DOIS_IRMAOS_BURITI">
-                  3 - D.I.B
-                </option>
-
-                <option value="NIOAQUE">
-                  4 - Nioaque
-                </option>
-
-                <option value="JARDIM_GUIA_LOPES">
-                  5 - Jardim / Guia Lopes
-                </option>
-
-                <option value="BONITO">
-                  7 - Bonito
-                </option>
-
-                <option value="BODOQUENA">
-                  15 - Bodoquena
-                </option>
               </select>
+
             </div>
 
             {/* STATUS */}
             <div>
-              <label className="block text-xs lg:text-sm font-medium text-slate-700 mb-1">
+
+              <label className="mb-2 block text-sm font-semibold text-slate-700">
                 Status
               </label>
 
               <select
                 value={status}
-                onChange={(event) =>
-                  setStatus(
-                    event.target.value as
-                      | "ATIVO"
-                      | "INATIVO"
-                  )
+                onChange={(e) =>
+                  setStatus(e.target.value)
                 }
-                className="
-                  w-full
-                  h-9
-                  lg:h-10
-                  px-3
-                  border
-                  border-slate-300
-                  rounded-lg
-                  text-xs
-                  lg:text-sm
-                  text-slate-700
-                  bg-white
-                  outline-none
-                  focus:border-blue-500
-                  focus:ring-2
-                  focus:ring-blue-500/10
-                  cursor-pointer
-                "
+                className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
               >
-                <option value="ATIVO">
-                  Ativo
-                </option>
 
-                <option value="INATIVO">
-                  Inativo
-                </option>
+                {statusOptions.map(
+                  (item) => (
+                    <option
+                      key={item}
+                      value={item}
+                    >
+                      {item === "ATIVO"
+                        ? "Ativo"
+                        : "Inativo"}
+                    </option>
+                  )
+                )}
+
               </select>
+
             </div>
+
           </div>
 
-          {/* RODAPÉ */}
-          <div
-            className="
-              flex
-              justify-end
-              gap-2
-              px-5
-              py-4
-              border-t
-              border-slate-200
-              bg-slate-50
-            "
+        </div>
+
+        {/* RODAPÉ */}
+        <div className="flex items-center justify-end gap-3 border-t border-slate-200 bg-slate-50 px-6 py-4">
+
+          <button
+            type="button"
+            onClick={onFechar}
+            disabled={salvando}
+            className="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <button
-              type="button"
-              onClick={onFechar}
-              className="
-                px-3
-                lg:px-4
-                py-2
-                border
-                border-slate-300
-                rounded-lg
-                text-xs
-                lg:text-sm
-                text-slate-600
-                hover:bg-white
-                cursor-pointer
-              "
-            >
-              Cancelar
-            </button>
+            Cancelar
+          </button>
 
-            <button
-              type="submit"
-              className="
-                px-3
-                lg:px-4
-                py-2
-                bg-blue-600
-                hover:bg-blue-700
-                rounded-lg
-                text-xs
-                lg:text-sm
-                text-white
-                font-medium
-                cursor-pointer
-              "
-            >
-              {veiculo
-                ? "Salvar alterações"
-                : "Cadastrar veículo"}
-            </button>
-          </div>
-        </form>
+          <button
+            type="button"
+            onClick={salvar}
+            disabled={salvando}
+            className="rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {salvando
+              ? "Salvando..."
+              : editando
+              ? "Salvar alterações"
+              : "Cadastrar veículo"}
+          </button>
+
+        </div>
+
       </div>
+
     </div>
   );
 }
-
-export default BotaoVeiculo;
