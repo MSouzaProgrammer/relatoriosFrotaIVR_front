@@ -575,7 +575,7 @@ export default function Veiculos() {
 
         <div className="overflow-x-auto">
 
-          <table className="w-full min-w-[1100px]">
+          <table className="w-full min-w-275">
 
             <thead>
 

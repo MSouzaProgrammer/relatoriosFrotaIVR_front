@@ -485,7 +485,7 @@ function Abastecimento() {
       {/* TABELA */}
       <div className="mt-6 w-full overflow-x-auto rounded-md border border-slate-300">
 
-        <div className="min-w-[1150px]">
+        <div className="min-w-287.5">
 
           <div className="grid grid-cols-9 items-center bg-slate-200 h-10 px-4 text-slate-600 text-sm font-medium">
 

@@ -746,8 +746,8 @@ function Geral() {
                 items-center
                 justify-center
                 gap-2
-                bg-green-600
-                hover:bg-green-700
+                bg-blue-600
+                hover:bg-blue-700
                 text-white
                 rounded-lg
                 text-sm
@@ -755,6 +755,7 @@ function Geral() {
                 cursor-pointer
                 disabled:opacity-50
                 disabled:cursor-not-allowed
+                mt-6
               "
             >
 
@@ -808,7 +809,7 @@ function Geral() {
 
           <div className="mt-4 overflow-x-auto rounded-lg">
 
-            <div className="min-w-[500px]">
+            <div className="min-w-125">
 
               <div className="grid grid-cols-4 bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-600">
 
@@ -931,7 +932,7 @@ function Geral() {
 
           <div className="mt-4 overflow-x-auto rounded-lg">
 
-            <div className="min-w-[500px]">
+            <div className="min-w-125">
 
               <div className="grid grid-cols-4 bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-600">
 

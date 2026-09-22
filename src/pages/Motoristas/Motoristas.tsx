@@ -16,8 +16,8 @@ import Paginacao from "../../components/Paginacao";
 interface Motorista {
   id?: number;
   nome: string;
-  cpf: number | string;
-  cnh: number | string;
+  cpf: string;
+  cnh: string;
   ativo?: boolean;
 }
 
@@ -597,7 +597,7 @@ export default function Motoristas() {
 
         <div className="overflow-x-auto">
 
-          <table className="w-full min-w-[850px]">
+          <table className="w-full min-w-212.5">
 
             <thead>
 
