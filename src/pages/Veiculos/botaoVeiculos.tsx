@@ -35,6 +35,7 @@ const modelos = [
   "S10",
   "HILUX",
   "GOL",
+  "MOBI",
 ];
 
 const filiais = [

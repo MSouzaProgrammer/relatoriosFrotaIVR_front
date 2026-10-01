@@ -39,12 +39,7 @@ interface Manutencao {
   motorista: Motorista;
   despesa: "LAVAGEM" | "MANUTENCAO";
   data: string;
-  manutencaoTipos:
-    | "PNEU"
-    | "OLEO"
-    | "MOTOR"
-    | "OUTROS"
-    | null;
+  manutencaoTipos: "PNEU" | "OLEO" | "MOTOR" | "OUTROS" | null;
   novoKm: number;
   valorUnitario: number;
   valorTotal: number;
@@ -87,15 +82,11 @@ const FILIAIS = [
    CONVERSÕES
 ========================================================= */
 
-function valorReal(
-  valor: number | null | undefined
-) {
+function valorReal(valor: number | null | undefined) {
   return Number(valor || 0) / 100;
 }
 
-function litrosReal(
-  valor: number | null | undefined
-) {
+function litrosReal(valor: number | null | undefined) {
   return Number(valor || 0) / 100;
 }
 
@@ -104,19 +95,13 @@ function dataReal(data: string) {
     return null;
   }
 
-  const [ano, mes, dia] = data
-    .split("-")
-    .map(Number);
+  const [ano, mes, dia] = data.split("-").map(Number);
 
   if (!ano || !mes || !dia) {
     return null;
   }
 
-  return new Date(
-    ano,
-    mes - 1,
-    dia
-  );
+  return new Date(ano, mes - 1, dia);
 }
 
 function formatarData(data: string) {
@@ -124,24 +109,17 @@ function formatarData(data: string) {
     return "";
   }
 
-  const [ano, mes, dia] =
-    data.split("-");
+  const [ano, mes, dia] = data.split("-");
 
   return `${dia}/${mes}/${ano}`;
 }
 
-function nomeDaManutencao(
-  registro: Manutencao
-) {
-  if (
-    registro.nomeDaManutencao?.trim()
-  ) {
+function nomeDaManutencao(registro: Manutencao) {
+  if (registro.nomeDaManutencao?.trim()) {
     return registro.nomeDaManutencao;
   }
 
-  switch (
-    registro.manutencaoTipos
-  ) {
+  switch (registro.manutencaoTipos) {
     case "PNEU":
       return "Troca de pneu";
 
@@ -177,9 +155,7 @@ const CORES = {
   borda: "D1D5DB",
 };
 
-function aplicarBorda(
-  cell: ExcelJS.Cell
-) {
+function aplicarBorda(cell: ExcelJS.Cell) {
   cell.border = {
     top: {
       style: "thin",
@@ -208,33 +184,19 @@ function aplicarBorda(
   };
 }
 
-function aplicarMoeda(
-  cell: ExcelJS.Cell
-) {
-  cell.numFmt =
-    '"R$" #,##0.00';
+function aplicarMoeda(cell: ExcelJS.Cell) {
+  cell.numFmt = '"R$" #,##0.00';
 }
 
-function aplicarData(
-  cell: ExcelJS.Cell
-) {
-  cell.numFmt =
-    "dd/mm/yyyy";
+function aplicarData(cell: ExcelJS.Cell) {
+  cell.numFmt = "dd/mm/yyyy";
 }
 
-function aplicarTitulo(
-  row: ExcelJS.Row,
-  quantidadeColunas: number
-) {
+function aplicarTitulo(row: ExcelJS.Row, quantidadeColunas: number) {
   row.height = 30;
 
-  for (
-    let coluna = 1;
-    coluna <= quantidadeColunas;
-    coluna++
-  ) {
-    const cell =
-      row.getCell(coluna);
+  for (let coluna = 1; coluna <= quantidadeColunas; coluna++) {
+    const cell = row.getCell(coluna);
 
     cell.fill = {
       type: "pattern",
@@ -261,19 +223,11 @@ function aplicarTitulo(
   }
 }
 
-function aplicarCabecalho(
-  row: ExcelJS.Row,
-  quantidadeColunas: number
-) {
+function aplicarCabecalho(row: ExcelJS.Row, quantidadeColunas: number) {
   row.height = 23;
 
-  for (
-    let coluna = 1;
-    coluna <= quantidadeColunas;
-    coluna++
-  ) {
-    const cell =
-      row.getCell(coluna);
+  for (let coluna = 1; coluna <= quantidadeColunas; coluna++) {
+    const cell = row.getCell(coluna);
 
     cell.fill = {
       type: "pattern",
@@ -299,19 +253,11 @@ function aplicarCabecalho(
   }
 }
 
-function aplicarFilial(
-  row: ExcelJS.Row,
-  quantidadeColunas: number
-) {
+function aplicarFilial(row: ExcelJS.Row, quantidadeColunas: number) {
   row.height = 24;
 
-  for (
-    let coluna = 1;
-    coluna <= quantidadeColunas;
-    coluna++
-  ) {
-    const cell =
-      row.getCell(coluna);
+  for (let coluna = 1; coluna <= quantidadeColunas; coluna++) {
+    const cell = row.getCell(coluna);
 
     cell.fill = {
       type: "pattern",
@@ -330,10 +276,7 @@ function aplicarFilial(
     };
 
     cell.alignment = {
-      horizontal:
-        coluna === 1
-          ? "left"
-          : "center",
+      horizontal: coluna === 1 ? "left" : "center",
       vertical: "middle",
     };
 
@@ -341,19 +284,11 @@ function aplicarFilial(
   }
 }
 
-function aplicarTotal(
-  row: ExcelJS.Row,
-  quantidadeColunas: number
-) {
+function aplicarTotal(row: ExcelJS.Row, quantidadeColunas: number) {
   row.height = 24;
 
-  for (
-    let coluna = 1;
-    coluna <= quantidadeColunas;
-    coluna++
-  ) {
-    const cell =
-      row.getCell(coluna);
+  for (let coluna = 1; coluna <= quantidadeColunas; coluna++) {
+    const cell = row.getCell(coluna);
 
     cell.fill = {
       type: "pattern",
@@ -371,10 +306,7 @@ function aplicarTotal(
     };
 
     cell.alignment = {
-      horizontal:
-        coluna === 1
-          ? "left"
-          : "right",
+      horizontal: coluna === 1 ? "left" : "right",
       vertical: "middle",
     };
 
@@ -391,37 +323,27 @@ function agruparPorFilial<
     veiculo?: {
       filial?: string;
     };
-  }
+  },
 >(registros: T[]) {
-  const mapa =
-    new Map<string, T[]>();
+  const mapa = new Map<string, T[]>();
 
-  FILIAIS.forEach(
-    (filial) => {
-      mapa.set(
-        filial.codigo,
-        []
-      );
+  FILIAIS.forEach((filial) => {
+    mapa.set(filial.codigo, []);
+  });
+
+  registros.forEach((registro) => {
+    const filial = registro.veiculo?.filial;
+
+    if (!filial) {
+      return;
     }
-  );
 
-  registros.forEach(
-    (registro) => {
-      const filial =
-        registro.veiculo?.filial;
+    const lista = mapa.get(filial);
 
-      if (!filial) {
-        return;
-      }
-
-      const lista =
-        mapa.get(filial);
-
-      if (lista) {
-        lista.push(registro);
-      }
+    if (lista) {
+      lista.push(registro);
     }
-  );
+  });
 
   return mapa;
 }
@@ -434,7 +356,7 @@ function prepararAba(
   sheet: ExcelJS.Worksheet,
   titulo: string,
   colunas: string[],
-  larguras: number[]
+  larguras: number[],
 ) {
   sheet.views = [
     {
@@ -443,81 +365,45 @@ function prepararAba(
     },
   ];
 
-  sheet.columns =
-    larguras.map(
-      (width) => ({
-        width,
-      })
-    );
+  sheet.columns = larguras.map((width) => ({
+    width,
+  }));
 
-  sheet.mergeCells(
-    1,
-    1,
-    1,
-    colunas.length
-  );
+  sheet.mergeCells(1, 1, 1, colunas.length);
 
-  const tituloCell =
-    sheet.getCell(1, 1);
+  const tituloCell = sheet.getCell(1, 1);
 
-  tituloCell.value =
-    titulo;
+  tituloCell.value = titulo;
 
-  aplicarTitulo(
-    sheet.getRow(1),
-    colunas.length
-  );
+  aplicarTitulo(sheet.getRow(1), colunas.length);
 
-  sheet.getRow(3).values =
-    colunas;
+  sheet.getRow(3).values = colunas;
 
-  aplicarCabecalho(
-    sheet.getRow(3),
-    colunas.length
-  );
+  aplicarCabecalho(sheet.getRow(3), colunas.length);
 }
 
 function criarCabecalhoFilial(
   sheet: ExcelJS.Worksheet,
   linha: number,
   nome: string,
-  quantidadeColunas: number
+  quantidadeColunas: number,
 ) {
-  sheet.mergeCells(
-    linha,
-    1,
-    linha,
-    quantidadeColunas
-  );
+  sheet.mergeCells(linha, 1, linha, quantidadeColunas);
 
-  const cell =
-    sheet.getCell(
-      linha,
-      1
-    );
+  const cell = sheet.getCell(linha, 1);
 
   cell.value = nome;
 
-  aplicarFilial(
-    sheet.getRow(linha),
-    quantidadeColunas
-  );
+  aplicarFilial(sheet.getRow(linha), quantidadeColunas);
 }
 
 function limparLinha(
   sheet: ExcelJS.Worksheet,
   linha: number,
-  quantidadeColunas: number
+  quantidadeColunas: number,
 ) {
-  for (
-    let coluna = 1;
-    coluna <= quantidadeColunas;
-    coluna++
-  ) {
-    sheet.getCell(
-      linha,
-      coluna
-    ).value = null;
+  for (let coluna = 1; coluna <= quantidadeColunas; coluna++) {
+    sheet.getCell(linha, coluna).value = null;
   }
 }
 
@@ -529,12 +415,9 @@ function criarAbaCombustivel(
   workbook: ExcelJS.Workbook,
   registros: Abastecimento[],
   dataInicial: string,
-  dataFinal: string
+  dataFinal: string,
 ) {
-  const sheet =
-    workbook.addWorksheet(
-      "DESP. COMBUSTÍVEL"
-    );
+  const sheet = workbook.addWorksheet("DESP. COMBUSTÍVEL");
 
   prepararAba(
     sheet,
@@ -548,177 +431,95 @@ function criarAbaCombustivel(
       "VALOR PAGO",
       "OBSERVAÇÃO",
     ],
-    [
-      14,
-      24,
-      28,
-      14,
-      16,
-      17,
-      40,
-    ]
+    [14, 24, 28, 14, 16, 17, 40],
   );
 
   let linha = 4;
 
-  const grupos =
-    agruparPorFilial(
-      registros
-    );
+  const grupos = agruparPorFilial(registros);
 
-  FILIAIS.forEach(
-    (filial) => {
-      const dados =
-        grupos.get(
-          filial.codigo
-        ) || [];
+  FILIAIS.forEach((filial) => {
+    const dados = grupos.get(filial.codigo) || [];
 
-      criarCabecalhoFilial(
-        sheet,
-        linha,
-        filial.nome,
-        7
-      );
+    criarCabecalhoFilial(sheet, linha, filial.nome, 7);
 
-      linha++;
+    linha++;
 
-      if (dados.length === 0) {
-        sheet.mergeCells(
-          linha,
-          1,
-          linha,
-          7
-        );
+    if (dados.length === 0) {
+      sheet.mergeCells(linha, 1, linha, 7);
 
-        const cell =
-          sheet.getCell(
-            linha,
-            1
-          );
+      const cell = sheet.getCell(linha, 1);
 
-        cell.value =
-          "Nenhum lançamento no período.";
+      cell.value = "Nenhum lançamento no período.";
 
-        cell.alignment = {
-          horizontal: "center",
-          vertical: "middle",
-        };
+      cell.alignment = {
+        horizontal: "center",
+        vertical: "middle",
+      };
 
-        cell.font = {
-          italic: true,
-          color: {
-            argb: "FF6B7280",
-          },
-        };
-
-        linha += 2;
-
-        return;
-      }
-
-      let totalLitros = 0;
-      let totalValor = 0;
-
-      dados.forEach(
-        (registro) => {
-          const row =
-            sheet.getRow(linha);
-
-          row.getCell(1).value =
-            registro.veiculo?.placa ||
-            "";
-
-          row.getCell(2).value =
-            registro.veiculo
-              ?.modelosVeiculos ||
-            "";
-
-          row.getCell(3).value =
-            registro.motorista?.nome ||
-            "";
-
-          row.getCell(4).value =
-            litrosReal(
-              registro.quantLitro
-            );
-
-          row.getCell(5).value =
-            dataReal(
-              registro.data
-            );
-
-          row.getCell(6).value =
-            valorReal(
-              registro.valorTotal
-            );
-
-          row.getCell(7).value =
-            registro.observacao ||
-            "";
-
-          aplicarData(
-            row.getCell(5)
-          );
-
-          aplicarMoeda(
-            row.getCell(6)
-          );
-
-          for (
-            let coluna = 1;
-            coluna <= 7;
-            coluna++
-          ) {
-            aplicarBorda(
-              row.getCell(coluna)
-            );
-          }
-
-          totalLitros +=
-            litrosReal(
-              registro.quantLitro
-            );
-
-          totalValor +=
-            valorReal(
-              registro.valorTotal
-            );
-
-          linha++;
-        }
-      );
-
-      const totalRow =
-        sheet.getRow(linha);
-
-      sheet.mergeCells(
-        linha,
-        1,
-        linha,
-        3
-      );
-
-      totalRow.getCell(1).value =
-        "SUBTOTAL";
-
-      totalRow.getCell(4).value =
-        totalLitros;
-
-      totalRow.getCell(6).value =
-        totalValor;
-
-      aplicarMoeda(
-        totalRow.getCell(6)
-      );
-
-      aplicarTotal(
-        totalRow,
-        7
-      );
+      cell.font = {
+        italic: true,
+        color: {
+          argb: "FF6B7280",
+        },
+      };
 
       linha += 2;
+
+      return;
     }
-  );
+
+    let totalLitros = 0;
+    let totalValor = 0;
+
+    dados.forEach((registro) => {
+      const row = sheet.getRow(linha);
+
+      row.getCell(1).value = registro.veiculo?.placa || "";
+
+      row.getCell(2).value = registro.veiculo?.modelosVeiculos || "";
+
+      row.getCell(3).value = registro.motorista?.nome || "";
+
+      row.getCell(4).value = litrosReal(registro.quantLitro);
+
+      row.getCell(5).value = dataReal(registro.data);
+
+      row.getCell(6).value = valorReal(registro.valorTotal);
+
+      row.getCell(7).value = registro.observacao || "";
+
+      aplicarData(row.getCell(5));
+
+      aplicarMoeda(row.getCell(6));
+
+      for (let coluna = 1; coluna <= 7; coluna++) {
+        aplicarBorda(row.getCell(coluna));
+      }
+
+      totalLitros += litrosReal(registro.quantLitro);
+
+      totalValor += valorReal(registro.valorTotal);
+
+      linha++;
+    });
+
+    const totalRow = sheet.getRow(linha);
+
+    sheet.mergeCells(linha, 1, linha, 3);
+
+    totalRow.getCell(1).value = "SUBTOTAL";
+
+    totalRow.getCell(4).value = totalLitros;
+
+    totalRow.getCell(6).value = totalValor;
+
+    aplicarMoeda(totalRow.getCell(6));
+
+    aplicarTotal(totalRow, 7);
+
+    linha += 2;
+  });
 
   return sheet;
 }
@@ -731,12 +532,9 @@ function criarAbaLavagem(
   workbook: ExcelJS.Workbook,
   registros: Manutencao[],
   dataInicial: string,
-  dataFinal: string
+  dataFinal: string,
 ) {
-  const sheet =
-    workbook.addWorksheet(
-      "DESP. LAVAGEM"
-    );
+  const sheet = workbook.addWorksheet("DESP. LAVAGEM");
 
   prepararAba(
     sheet,
@@ -750,161 +548,83 @@ function criarAbaLavagem(
       "VALOR PAGO",
       "OBSERVAÇÃO",
     ],
-    [
-      14,
-      24,
-      28,
-      14,
-      16,
-      17,
-      40,
-    ]
+    [14, 24, 28, 14, 16, 17, 40],
   );
 
   let linha = 4;
 
-  const grupos =
-    agruparPorFilial(
-      registros
-    );
+  const grupos = agruparPorFilial(registros);
 
-  FILIAIS.forEach(
-    (filial) => {
-      const dados =
-        grupos.get(
-          filial.codigo
-        ) || [];
+  FILIAIS.forEach((filial) => {
+    const dados = grupos.get(filial.codigo) || [];
 
-      criarCabecalhoFilial(
-        sheet,
-        linha,
-        filial.nome,
-        7
-      );
+    criarCabecalhoFilial(sheet, linha, filial.nome, 7);
 
-      linha++;
+    linha++;
 
-      if (dados.length === 0) {
-        sheet.mergeCells(
-          linha,
-          1,
-          linha,
-          7
-        );
+    if (dados.length === 0) {
+      sheet.mergeCells(linha, 1, linha, 7);
 
-        sheet.getCell(
-          linha,
-          1
-        ).value =
-          "Nenhum lançamento no período.";
+      sheet.getCell(linha, 1).value = "Nenhum lançamento no período.";
 
-        sheet.getCell(
-          linha,
-          1
-        ).alignment = {
-          horizontal: "center",
-          vertical: "middle",
-        };
-
-        linha += 2;
-
-        return;
-      }
-
-      let totalValor = 0;
-
-      dados.forEach(
-        (registro) => {
-          const row =
-            sheet.getRow(linha);
-
-          row.getCell(1).value =
-            registro.veiculo?.placa ||
-            "";
-
-          row.getCell(2).value =
-            registro.veiculo
-              ?.modelosVeiculos ||
-            "";
-
-          row.getCell(3).value =
-            registro.motorista?.nome ||
-            "";
-
-          row.getCell(4).value = 1;
-
-          row.getCell(5).value =
-            dataReal(
-              registro.data
-            );
-
-          row.getCell(6).value =
-            valorReal(
-              registro.valorTotal
-            );
-
-          row.getCell(7).value =
-            registro.observacao ||
-            "";
-
-          aplicarData(
-            row.getCell(5)
-          );
-
-          aplicarMoeda(
-            row.getCell(6)
-          );
-
-          for (
-            let coluna = 1;
-            coluna <= 7;
-            coluna++
-          ) {
-            aplicarBorda(
-              row.getCell(coluna)
-            );
-          }
-
-          totalValor +=
-            valorReal(
-              registro.valorTotal
-            );
-
-          linha++;
-        }
-      );
-
-      const totalRow =
-        sheet.getRow(linha);
-
-      sheet.mergeCells(
-        linha,
-        1,
-        linha,
-        3
-      );
-
-      totalRow.getCell(1).value =
-        "SUBTOTAL";
-
-      totalRow.getCell(4).value =
-        dados.length;
-
-      totalRow.getCell(6).value =
-        totalValor;
-
-      aplicarMoeda(
-        totalRow.getCell(6)
-      );
-
-      aplicarTotal(
-        totalRow,
-        7
-      );
+      sheet.getCell(linha, 1).alignment = {
+        horizontal: "center",
+        vertical: "middle",
+      };
 
       linha += 2;
+
+      return;
     }
-  );
+
+    let totalValor = 0;
+
+    dados.forEach((registro) => {
+      const row = sheet.getRow(linha);
+
+      row.getCell(1).value = registro.veiculo?.placa || "";
+
+      row.getCell(2).value = registro.veiculo?.modelosVeiculos || "";
+
+      row.getCell(3).value = registro.motorista?.nome || "";
+
+      row.getCell(4).value = 1;
+
+      row.getCell(5).value = dataReal(registro.data);
+
+      row.getCell(6).value = valorReal(registro.valorTotal);
+
+      row.getCell(7).value = registro.observacao || "";
+
+      aplicarData(row.getCell(5));
+
+      aplicarMoeda(row.getCell(6));
+
+      for (let coluna = 1; coluna <= 7; coluna++) {
+        aplicarBorda(row.getCell(coluna));
+      }
+
+      totalValor += valorReal(registro.valorTotal);
+
+      linha++;
+    });
+
+    const totalRow = sheet.getRow(linha);
+
+    sheet.mergeCells(linha, 1, linha, 3);
+
+    totalRow.getCell(1).value = "SUBTOTAL";
+
+    totalRow.getCell(4).value = dados.length;
+
+    totalRow.getCell(6).value = totalValor;
+
+    aplicarMoeda(totalRow.getCell(6));
+
+    aplicarTotal(totalRow, 7);
+
+    linha += 2;
+  });
 
   return sheet;
 }
@@ -917,12 +637,9 @@ function criarAbaPneus(
   workbook: ExcelJS.Workbook,
   registros: Manutencao[],
   dataInicial: string,
-  dataFinal: string
+  dataFinal: string,
 ) {
-  const sheet =
-    workbook.addWorksheet(
-      "DESP. PNEUS"
-    );
+  const sheet = workbook.addWorksheet("DESP. PNEUS");
 
   prepararAba(
     sheet,
@@ -936,161 +653,83 @@ function criarAbaPneus(
       "VALOR PAGO",
       "OBSERVAÇÃO",
     ],
-    [
-      14,
-      24,
-      28,
-      14,
-      16,
-      17,
-      40,
-    ]
+    [14, 24, 28, 14, 16, 17, 40],
   );
 
   let linha = 4;
 
-  const grupos =
-    agruparPorFilial(
-      registros
-    );
+  const grupos = agruparPorFilial(registros);
 
-  FILIAIS.forEach(
-    (filial) => {
-      const dados =
-        grupos.get(
-          filial.codigo
-        ) || [];
+  FILIAIS.forEach((filial) => {
+    const dados = grupos.get(filial.codigo) || [];
 
-      criarCabecalhoFilial(
-        sheet,
-        linha,
-        filial.nome,
-        7
-      );
+    criarCabecalhoFilial(sheet, linha, filial.nome, 7);
 
-      linha++;
+    linha++;
 
-      if (dados.length === 0) {
-        sheet.mergeCells(
-          linha,
-          1,
-          linha,
-          7
-        );
+    if (dados.length === 0) {
+      sheet.mergeCells(linha, 1, linha, 7);
 
-        sheet.getCell(
-          linha,
-          1
-        ).value =
-          "Nenhum lançamento no período.";
+      sheet.getCell(linha, 1).value = "Nenhum lançamento no período.";
 
-        sheet.getCell(
-          linha,
-          1
-        ).alignment = {
-          horizontal: "center",
-          vertical: "middle",
-        };
-
-        linha += 2;
-
-        return;
-      }
-
-      let totalValor = 0;
-
-      dados.forEach(
-        (registro) => {
-          const row =
-            sheet.getRow(linha);
-
-          row.getCell(1).value =
-            registro.veiculo?.placa ||
-            "";
-
-          row.getCell(2).value =
-            registro.veiculo
-              ?.modelosVeiculos ||
-            "";
-
-          row.getCell(3).value =
-            registro.motorista?.nome ||
-            "";
-
-          row.getCell(4).value = 1;
-
-          row.getCell(5).value =
-            dataReal(
-              registro.data
-            );
-
-          row.getCell(6).value =
-            valorReal(
-              registro.valorTotal
-            );
-
-          row.getCell(7).value =
-            registro.observacao ||
-            "";
-
-          aplicarData(
-            row.getCell(5)
-          );
-
-          aplicarMoeda(
-            row.getCell(6)
-          );
-
-          for (
-            let coluna = 1;
-            coluna <= 7;
-            coluna++
-          ) {
-            aplicarBorda(
-              row.getCell(coluna)
-            );
-          }
-
-          totalValor +=
-            valorReal(
-              registro.valorTotal
-            );
-
-          linha++;
-        }
-      );
-
-      const totalRow =
-        sheet.getRow(linha);
-
-      sheet.mergeCells(
-        linha,
-        1,
-        linha,
-        3
-      );
-
-      totalRow.getCell(1).value =
-        "SUBTOTAL";
-
-      totalRow.getCell(4).value =
-        dados.length;
-
-      totalRow.getCell(6).value =
-        totalValor;
-
-      aplicarMoeda(
-        totalRow.getCell(6)
-      );
-
-      aplicarTotal(
-        totalRow,
-        7
-      );
+      sheet.getCell(linha, 1).alignment = {
+        horizontal: "center",
+        vertical: "middle",
+      };
 
       linha += 2;
+
+      return;
     }
-  );
+
+    let totalValor = 0;
+
+    dados.forEach((registro) => {
+      const row = sheet.getRow(linha);
+
+      row.getCell(1).value = registro.veiculo?.placa || "";
+
+      row.getCell(2).value = registro.veiculo?.modelosVeiculos || "";
+
+      row.getCell(3).value = registro.motorista?.nome || "";
+
+      row.getCell(4).value = 1;
+
+      row.getCell(5).value = dataReal(registro.data);
+
+      row.getCell(6).value = valorReal(registro.valorTotal);
+
+      row.getCell(7).value = registro.observacao || "";
+
+      aplicarData(row.getCell(5));
+
+      aplicarMoeda(row.getCell(6));
+
+      for (let coluna = 1; coluna <= 7; coluna++) {
+        aplicarBorda(row.getCell(coluna));
+      }
+
+      totalValor += valorReal(registro.valorTotal);
+
+      linha++;
+    });
+
+    const totalRow = sheet.getRow(linha);
+
+    sheet.mergeCells(linha, 1, linha, 3);
+
+    totalRow.getCell(1).value = "SUBTOTAL";
+
+    totalRow.getCell(4).value = dados.length;
+
+    totalRow.getCell(6).value = totalValor;
+
+    aplicarMoeda(totalRow.getCell(6));
+
+    aplicarTotal(totalRow, 7);
+
+    linha += 2;
+  });
 
   return sheet;
 }
@@ -1103,12 +742,9 @@ function criarAbaManutencao(
   workbook: ExcelJS.Workbook,
   registros: Manutencao[],
   dataInicial: string,
-  dataFinal: string
+  dataFinal: string,
 ) {
-  const sheet =
-    workbook.addWorksheet(
-      "DESP. MANUTENÇÃO"
-    );
+  const sheet = workbook.addWorksheet("DESP. MANUTENÇÃO");
 
   prepararAba(
     sheet,
@@ -1123,168 +759,90 @@ function criarAbaManutencao(
       "VALOR PAGO",
       "OBSERVAÇÃO",
     ],
-    [
-      14,
-      24,
-      28,
-      15,
-      16,
-      32,
-      17,
-      40,
-    ]
+    [14, 24, 28, 15, 16, 32, 17, 40],
   );
 
   let linha = 4;
 
-  const grupos =
-    agruparPorFilial(
-      registros
-    );
+  const grupos = agruparPorFilial(registros);
 
-  FILIAIS.forEach(
-    (filial) => {
-      const dados =
-        grupos.get(
-          filial.codigo
-        ) || [];
+  FILIAIS.forEach((filial) => {
+    const dados = grupos.get(filial.codigo) || [];
 
-      criarCabecalhoFilial(
-        sheet,
-        linha,
-        filial.nome,
-        8
-      );
+    criarCabecalhoFilial(sheet, linha, filial.nome, 8);
 
-      linha++;
+    linha++;
 
-      if (dados.length === 0) {
-        sheet.mergeCells(
-          linha,
-          1,
-          linha,
-          8
-        );
+    if (dados.length === 0) {
+      sheet.mergeCells(linha, 1, linha, 8);
 
-        sheet.getCell(
-          linha,
-          1
-        ).value =
-          "Nenhum lançamento no período.";
+      sheet.getCell(linha, 1).value = "Nenhum lançamento no período.";
 
-        sheet.getCell(
-          linha,
-          1
-        ).alignment = {
-          horizontal: "center",
-          vertical: "middle",
-        };
-
-        linha += 2;
-
-        return;
-      }
-
-      let totalValor = 0;
-
-      dados.forEach(
-        (registro) => {
-          const row =
-            sheet.getRow(linha);
-
-          row.getCell(1).value =
-            registro.veiculo?.placa ||
-            "";
-
-          row.getCell(2).value =
-            registro.veiculo
-              ?.modelosVeiculos ||
-            "";
-
-          row.getCell(3).value =
-            registro.motorista?.nome ||
-            "";
-
-          row.getCell(4).value =
-            registro.novoKm || 0;
-
-          row.getCell(5).value =
-            dataReal(
-              registro.data
-            );
-
-          row.getCell(6).value =
-            nomeDaManutencao(
-              registro
-            );
-
-          row.getCell(7).value =
-            valorReal(
-              registro.valorTotal
-            );
-
-          row.getCell(8).value =
-            registro.observacao ||
-            "";
-
-          aplicarData(
-            row.getCell(5)
-          );
-
-          aplicarMoeda(
-            row.getCell(7)
-          );
-
-          for (
-            let coluna = 1;
-            coluna <= 8;
-            coluna++
-          ) {
-            aplicarBorda(
-              row.getCell(coluna)
-            );
-          }
-
-          totalValor +=
-            valorReal(
-              registro.valorTotal
-            );
-
-          linha++;
-        }
-      );
-
-      const totalRow =
-        sheet.getRow(linha);
-
-      sheet.mergeCells(
-        linha,
-        1,
-        linha,
-        6
-      );
-
-      totalRow.getCell(1).value =
-        "SUBTOTAL";
-
-      totalRow.getCell(7).value =
-        totalValor;
-
-      aplicarMoeda(
-        totalRow.getCell(7)
-      );
-
-      aplicarTotal(
-        totalRow,
-        8
-      );
+      sheet.getCell(linha, 1).alignment = {
+        horizontal: "center",
+        vertical: "middle",
+      };
 
       linha += 2;
+
+      return;
     }
-  );
+
+    let totalValor = 0;
+
+    dados.forEach((registro) => {
+      const row = sheet.getRow(linha);
+
+      row.getCell(1).value = registro.veiculo?.placa || "";
+
+      row.getCell(2).value = registro.veiculo?.modelosVeiculos || "";
+
+      row.getCell(3).value = registro.motorista?.nome || "";
+
+      row.getCell(4).value = registro.novoKm || 0;
+
+      row.getCell(5).value = dataReal(registro.data);
+
+      row.getCell(6).value = nomeDaManutencao(registro);
+
+      row.getCell(7).value = valorReal(registro.valorTotal);
+
+      row.getCell(8).value = registro.observacao || "";
+
+      aplicarData(row.getCell(5));
+
+      aplicarMoeda(row.getCell(7));
+
+      for (let coluna = 1; coluna <= 8; coluna++) {
+        aplicarBorda(row.getCell(coluna));
+      }
+
+      totalValor += valorReal(registro.valorTotal);
+
+      linha++;
+    });
+
+    const totalRow = sheet.getRow(linha);
+
+    sheet.mergeCells(linha, 1, linha, 6);
+
+    totalRow.getCell(1).value = "SUBTOTAL";
+
+    totalRow.getCell(7).value = totalValor;
+
+    aplicarMoeda(totalRow.getCell(7));
+
+    aplicarTotal(totalRow, 8);
+
+    linha += 2;
+  });
 
   return sheet;
 }
+
+/* =========================================================
+   ABA GERAL
+========================================================= */
 
 /* =========================================================
    ABA GERAL
@@ -1297,13 +855,13 @@ function criarAbaGeral(
   lavagens: Manutencao[],
   manutencoes: Manutencao[],
   dataInicial: string,
-  dataFinal: string
+  dataFinal: string,
 ) {
-  const sheet =
-    workbook.addWorksheet(
-      "GERAL"
-    );
+  const sheet = workbook.addWorksheet("GERAL");
 
+  /*
+   * Configuração visual
+   */
   sheet.views = [
     {
       showGridLines: false,
@@ -1315,212 +873,95 @@ function criarAbaGeral(
     { width: 18 },
     { width: 18 },
     { width: 4 },
+    { width: 30 },
     { width: 18 },
     { width: 18 },
-    { width: 20 },
   ];
 
-  sheet.mergeCells(
-    "A1:G1"
-  );
-
-  sheet.getCell(
-    "A1"
-  ).value =
-    "RELATÓRIO GERAL DA FROTA";
-
-  aplicarTitulo(
-    sheet.getRow(1),
-    7
-  );
-
-  sheet.mergeCells(
-    "A2:G2"
-  );
-
-  sheet.getCell(
-    "A2"
-  ).value =
-    `Período: ${formatarData(dataInicial)} a ${formatarData(dataFinal)}`;
-
-  sheet.getCell(
-    "A2"
-  ).alignment = {
-    horizontal: "center",
-    vertical: "middle",
-  };
-
-  sheet.getCell(
-    "A2"
-  ).font = {
-    bold: true,
-    size: 11,
-    color: {
-      argb: `FF${CORES.texto}`,
-    },
-  };
+  /*
+   * ========================================================
+   * NOMES DAS FILIAIS
+   * ========================================================
+   *
+   * Aqui usamos os nomes exatamente como aparecem
+   * no modelo da imagem.
+   */
+  const nomeFilial = new Map<string, string>([
+    ["MATRIZ", "MATRIZ"],
+    ["AQUIDAUANA_ANASTACIO", "AQUID./ANASTÁCIO"],
+    ["DOIS_IRMAOS_BURITI", "DOIS IRMÃOS BURITI"],
+    ["NIOAQUE", "NIOAQUE"],
+    ["JARDIM_GUIA_LOPES", "JARDIM/GUIA LOPES"],
+    ["BONITO", "BONITO"],
+    ["BODOQUENA", "BODOQUENA"],
+  ]);
 
   /*
-   * TOTAIS
+   * ========================================================
+   * AGRUPAMENTO POR FILIAL
+   * ========================================================
    */
 
-  const totalCombustivel =
-    abastecimentos.reduce(
-      (soma, item) =>
-        soma +
-        valorReal(
-          item.valorTotal
-        ),
-      0
-    );
+  const gruposCombustivel = agruparPorFilial(abastecimentos);
 
-  const totalLavagem =
-    lavagens.reduce(
-      (soma, item) =>
-        soma +
-        valorReal(
-          item.valorTotal
-        ),
-      0
-    );
+  const gruposPneus = agruparPorFilial(pneus);
 
-  const totalPneus =
-    pneus.reduce(
-      (soma, item) =>
-        soma +
-        valorReal(
-          item.valorTotal
-        ),
-      0
-    );
+  const gruposLavagem = agruparPorFilial(lavagens);
 
-  const totalManutencao =
-    manutencoes.reduce(
-      (soma, item) =>
-        soma +
-        valorReal(
-          item.valorTotal
-        ),
-      0
-    );
-
-  const totalGeral =
-    totalCombustivel +
-    totalLavagem +
-    totalPneus +
-    totalManutencao;
+  const gruposManutencao = agruparPorFilial(manutencoes);
 
   /*
-   * CARDS
+   * ========================================================
+   * FUNÇÃO PARA PEGAR O NOME EXIBIDO
+   * ========================================================
    */
 
-  const cards = [
-    {
-      coluna: 1,
-      titulo: "COMBUSTÍVEL",
-      valor: totalCombustivel,
-      cor: CORES.azul,
-    },
-    {
-      coluna: 2,
-      titulo: "LAVAGEM",
-      valor: totalLavagem,
-      cor: CORES.verde,
-    },
-    {
-      coluna: 3,
-      titulo: "PNEUS",
-      valor: totalPneus,
-      cor: CORES.amarelo,
-    },
-    {
-      coluna: 5,
-      titulo: "MANUTENÇÃO",
-      valor: totalManutencao,
-      cor: CORES.vermelho,
-    },
-  ];
+  function nomeExibicaoFilial(codigo: string) {
+    return nomeFilial.get(codigo) || codigo;
+  }
 
-  cards.forEach(
-    (card) => {
-      const titulo =
-        sheet.getCell(
-          4,
-          card.coluna
-        );
+  /*
+   * ========================================================
+   * FUNÇÃO PARA APLICAR ESTILO NAS LINHAS
+   * ========================================================
+   */
 
-      const valor =
-        sheet.getCell(
-          5,
-          card.coluna
-        );
-
-      titulo.value =
-        card.titulo;
-
-      valor.value =
-        card.valor;
-
-      titulo.fill = {
-        type: "pattern",
-        pattern: "solid",
-        fgColor: {
-          argb: `FF${card.cor}`,
-        },
-      };
-
-      valor.fill = {
-        type: "pattern",
-        pattern: "solid",
-        fgColor: {
-          argb: `FF${card.cor}`,
-        },
-      };
-
-      titulo.font = {
-        bold: true,
-        color: {
-          argb: `FF${CORES.texto}`,
-        },
-      };
-
-      valor.font = {
-        bold: true,
-        size: 14,
-        color: {
-          argb: `FF${CORES.texto}`,
-        },
-      };
-
-      valor.alignment = {
-        horizontal: "right",
-      };
-
-      aplicarMoeda(valor);
-
-      aplicarBorda(titulo);
-      aplicarBorda(valor);
-    }
-  );
-
-  sheet.getCell(
-    4,
-    6
-  ).value =
-    "TOTAL GERAL";
-
-  sheet.getCell(
-    5,
-    6
-  ).value =
-    totalGeral;
-
-  for (
-    const cell of [
-      sheet.getCell(4, 6),
-      sheet.getCell(5, 6),
-    ]
+  function aplicarEstiloLinha(
+    row: ExcelJS.Row,
+    colunaInicial: number,
+    colunaFinal: number,
   ) {
+    for (let coluna = colunaInicial; coluna <= colunaFinal; coluna++) {
+      const cell = row.getCell(coluna);
+
+      aplicarBorda(cell);
+
+      cell.alignment = {
+        vertical: "middle",
+        horizontal: coluna === colunaInicial ? "left" : "center",
+      };
+
+      if (coluna === colunaInicial) {
+        cell.font = {
+          italic: true,
+        };
+      }
+    }
+  }
+
+  /*
+   * ========================================================
+   * TÍTULO
+   * ========================================================
+   */
+
+  function criarTitulo(inicio: string, fim: string, texto: string) {
+    sheet.mergeCells(`${inicio}:${fim}`);
+
+    const cell = sheet.getCell(inicio);
+
+    cell.value = texto;
+
     cell.fill = {
       type: "pattern",
       pattern: "solid",
@@ -1531,319 +972,516 @@ function criarAbaGeral(
 
     cell.font = {
       bold: true,
+      size: 14,
       color: {
         argb: `FF${CORES.branco}`,
       },
     };
 
+    cell.alignment = {
+      horizontal: "center",
+      vertical: "middle",
+    };
+
     aplicarBorda(cell);
+
+    sheet.getRow(1).height = 25;
   }
 
-  sheet.getCell(
-    5,
-    6
-  ).font = {
+  /*
+   * ========================================================
+   * CABEÇALHO
+   * ========================================================
+   */
+
+  function criarCabecalho(linha: number, colunas: string[]) {
+    const row = sheet.getRow(linha);
+
+    colunas.forEach((valor, index) => {
+      const cell = row.getCell(index + 1);
+
+      cell.value = valor;
+
+      cell.fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: {
+          argb: `FF${CORES.cabecalho}`,
+        },
+      };
+
+      cell.font = {
+        bold: true,
+        color: {
+          argb: `FF${CORES.texto}`,
+        },
+      };
+
+      cell.alignment = {
+        horizontal: "center",
+        vertical: "middle",
+      };
+
+      aplicarBorda(cell);
+    });
+
+    row.height = 22;
+  }
+
+  /*
+   * ========================================================
+   * TOTAL
+   * ========================================================
+   */
+
+  function estilizarTotal(row: ExcelJS.Row, colunas: number[]) {
+    colunas.forEach((coluna) => {
+      const cell = row.getCell(coluna);
+
+      cell.fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: {
+          argb: `FF${CORES.total}`,
+        },
+      };
+
+      cell.font = {
+        bold: true,
+        color: {
+          argb: `FF${CORES.texto}`,
+        },
+      };
+
+      cell.alignment = {
+        horizontal: "center",
+        vertical: "middle",
+      };
+
+      aplicarBorda(cell);
+    });
+  }
+
+  /*
+   * ========================================================
+   * 1. CONTROLE DESPESA COMBUSTÍVEL
+   * ========================================================
+   */
+
+  criarTitulo("A1", "C1", "CONTROLE DESPESA COMBUSTÍVEL");
+
+  criarCabecalho(2, ["LOJAS", "LITROS", "TOTAL"]);
+
+  let linhaCombustivel = 3;
+
+  let totalLitrosCombustivel = 0;
+  let totalValorCombustivel = 0;
+
+  FILIAIS.forEach((filial) => {
+    const dados = gruposCombustivel.get(filial.codigo) || [];
+
+    const litros = dados.reduce(
+      (soma, item) => soma + litrosReal(item.quantLitro),
+      0,
+    );
+
+    const valor = dados.reduce(
+      (soma, item) => soma + valorReal(item.valorTotal),
+      0,
+    );
+
+    const row = sheet.getRow(linhaCombustivel);
+
+    row.getCell(1).value = nomeExibicaoFilial(filial.codigo);
+
+    row.getCell(2).value = litros > 0 ? litros : "-";
+
+    row.getCell(3).value = valor > 0 ? valor : "-";
+
+    if (valor > 0) {
+      aplicarMoeda(row.getCell(3));
+    }
+
+    aplicarEstiloLinha(row, 1, 3);
+
+    totalLitrosCombustivel += litros;
+
+    totalValorCombustivel += valor;
+
+    linhaCombustivel++;
+  });
+
+  /*
+   * Total litros
+   */
+  const rowTotalLitros = sheet.getRow(linhaCombustivel);
+
+  rowTotalLitros.getCell(1).value = "TOTAL LITROS";
+
+  rowTotalLitros.getCell(2).value =
+    totalLitrosCombustivel > 0 ? totalLitrosCombustivel : "-";
+
+  rowTotalLitros.getCell(3).value = "";
+
+  estilizarTotal(rowTotalLitros, [1, 2, 3]);
+
+  /*
+   * Total geral
+   */
+  const rowTotalCombustivel = sheet.getRow(linhaCombustivel + 1);
+
+  rowTotalCombustivel.getCell(2).value = "TOTAL GERAL";
+
+  rowTotalCombustivel.getCell(3).value =
+    totalValorCombustivel > 0 ? totalValorCombustivel : "-";
+
+  if (totalValorCombustivel > 0) {
+    aplicarMoeda(rowTotalCombustivel.getCell(3));
+  }
+
+  estilizarTotal(rowTotalCombustivel, [2, 3]);
+
+  /*
+   * Vermelho no valor do total geral,
+   * igual ao modelo.
+   */
+  rowTotalCombustivel.getCell(3).font = {
     bold: true,
-    size: 14,
     color: {
-      argb: `FF${CORES.branco}`,
+      argb: `FF${CORES.texto}`,
     },
   };
 
-  aplicarMoeda(
-    sheet.getCell(5, 6)
-  );
-
   /*
-   * RESUMO POR FILIAL
+   * ========================================================
+   * 2. CONTROLE DESPESA PNEUS
+   * ========================================================
    */
 
-  sheet.mergeCells(
-    "A8:G8"
-  );
+  criarTitulo("E1", "G1", "CONTROLE DESPESA PNEUS - BORRACHARIA");
 
-  sheet.getCell(
-    "A8"
-  ).value =
-    "RESUMO POR FILIAL";
+  criarCabecalho(2, ["LOJAS", "QUANTIDADE", "TOTAL"]);
 
-  aplicarFilial(
-    sheet.getRow(8),
-    7
-  );
+  /*
+   * O criarCabecalho acima escreve A/B/C.
+   * Precisamos copiar para E/F/G.
+   */
+  ["LOJAS", "QUANTIDADE", "TOTAL"].forEach((valor, index) => {
+    const cell = sheet.getRow(2).getCell(index + 5);
 
-  sheet.getRow(9).values = [
-    "FILIAL",
-    "COMBUSTÍVEL",
-    "LAVAGEM",
-    "",
-    "PNEUS",
-    "MANUTENÇÃO",
-    "TOTAL",
-  ];
+    cell.value = valor;
 
-  aplicarCabecalho(
-    sheet.getRow(9),
-    7
-  );
+    cell.fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: {
+        argb: "FFB7B7B7",
+      },
+    };
 
-  const gruposCombustivel =
-    agruparPorFilial(
-      abastecimentos
+    cell.font = {
+      bold: true,
+      color: {
+        argb: "FF000000",
+      },
+    };
+
+    cell.alignment = {
+      horizontal: "center",
+      vertical: "middle",
+    };
+
+    aplicarBorda(cell);
+  });
+
+  let linhaPneus = 3;
+
+  let quantidadePneus = 0;
+  let totalValorPneus = 0;
+
+  FILIAIS.forEach((filial) => {
+    const dados = gruposPneus.get(filial.codigo) || [];
+
+    /*
+     * Cada lançamento de PNEU
+     * representa uma despesa.
+     */
+    const quantidade = dados.length;
+
+    const valor = dados.reduce(
+      (soma, item) => soma + valorReal(item.valorTotal),
+      0,
     );
 
-  const gruposLavagem =
-    agruparPorFilial(
-      lavagens
-    );
+    const row = sheet.getRow(linhaPneus);
 
-  const gruposPneus =
-    agruparPorFilial(
-      pneus
-    );
+    row.getCell(5).value = nomeExibicaoFilial(filial.codigo);
 
-  const gruposManutencao =
-    agruparPorFilial(
-      manutencoes
-    );
+    row.getCell(6).value = quantidade > 0 ? quantidade : "-";
 
-  let linha = 10;
+    row.getCell(7).value = valor > 0 ? valor : "-";
 
-  FILIAIS.forEach(
-    (filial) => {
-      const combustivel =
-        gruposCombustivel.get(
-          filial.codigo
-        ) || [];
-
-      const lavagem =
-        gruposLavagem.get(
-          filial.codigo
-        ) || [];
-
-      const pneu =
-        gruposPneus.get(
-          filial.codigo
-        ) || [];
-
-      const manutencao =
-        gruposManutencao.get(
-          filial.codigo
-        ) || [];
-
-      const valorCombustivel =
-        combustivel.reduce(
-          (soma, item) =>
-            soma +
-            valorReal(
-              item.valorTotal
-            ),
-          0
-        );
-
-      const valorLavagem =
-        lavagem.reduce(
-          (soma, item) =>
-            soma +
-            valorReal(
-              item.valorTotal
-            ),
-          0
-        );
-
-      const valorPneu =
-        pneu.reduce(
-          (soma, item) =>
-            soma +
-            valorReal(
-              item.valorTotal
-            ),
-          0
-        );
-
-      const valorManutencao =
-        manutencao.reduce(
-          (soma, item) =>
-            soma +
-            valorReal(
-              item.valorTotal
-            ),
-          0
-        );
-
-      const total =
-        valorCombustivel +
-        valorLavagem +
-        valorPneu +
-        valorManutencao;
-
-      const row =
-        sheet.getRow(linha);
-
-      row.getCell(1).value =
-        filial.nome;
-
-      row.getCell(2).value =
-        valorCombustivel;
-
-      row.getCell(3).value =
-        valorLavagem;
-
-      row.getCell(5).value =
-        valorPneu;
-
-      row.getCell(6).value =
-        valorManutencao;
-
-      row.getCell(7).value =
-        total;
-
-      for (
-        const coluna of [
-          2,
-          3,
-          5,
-          6,
-          7,
-        ]
-      ) {
-        aplicarMoeda(
-          row.getCell(coluna)
-        );
-      }
-
-      for (
-        let coluna = 1;
-        coluna <= 7;
-        coluna++
-      ) {
-        aplicarBorda(
-          row.getCell(coluna)
-        );
-      }
-
-      linha++;
+    if (valor > 0) {
+      aplicarMoeda(row.getCell(7));
     }
-  );
 
-  const totalRow =
-    sheet.getRow(linha);
+    aplicarEstiloLinha(row, 5, 7);
 
-  totalRow.getCell(1).value =
-    "TOTAL GERAL";
+    quantidadePneus += quantidade;
 
-  totalRow.getCell(2).value =
-    totalCombustivel;
+    totalValorPneus += valor;
 
-  totalRow.getCell(3).value =
-    totalLavagem;
-
-  totalRow.getCell(5).value =
-    totalPneus;
-
-  totalRow.getCell(6).value =
-    totalManutencao;
-
-  totalRow.getCell(7).value =
-    totalGeral;
-
-  for (
-    const coluna of [
-      2,
-      3,
-      5,
-      6,
-      7,
-    ]
-  ) {
-    aplicarMoeda(
-      totalRow.getCell(
-        coluna
-      )
-    );
-  }
-
-  aplicarTotal(
-    totalRow,
-    7
-  );
+    linhaPneus++;
+  });
 
   /*
-   * QUANTIDADES
+   * Quantidade total de pneus
+   */
+  const rowQuantidadePneus = sheet.getRow(linhaPneus);
+
+  rowQuantidadePneus.getCell(5).value = "QUANTIDADE DESPESA PNEU";
+
+  rowQuantidadePneus.getCell(6).value =
+    quantidadePneus > 0 ? quantidadePneus : "-";
+
+  rowQuantidadePneus.getCell(7).value = "";
+
+  estilizarTotal(rowQuantidadePneus, [5, 6, 7]);
+
+  /*
+   * Total geral pneus
+   */
+  const rowTotalPneus = sheet.getRow(linhaPneus + 1);
+
+  rowTotalPneus.getCell(6).value = "TOTAL GERAL";
+
+  rowTotalPneus.getCell(7).value = totalValorPneus > 0 ? totalValorPneus : "-";
+
+  if (totalValorPneus > 0) {
+    aplicarMoeda(rowTotalPneus.getCell(7));
+  }
+
+  estilizarTotal(rowTotalPneus, [6, 7]);
+
+  rowTotalPneus.getCell(7).font = {
+    bold: true,
+    color: {
+      argb: `FF${CORES.texto}`,
+    },
+  };
+
+  /*
+   * ========================================================
+   * 3. CONTROLE DESPESA LAVAGEM
+   * ========================================================
    */
 
-  const linhaQuantidade =
-    linha + 3;
+  criarTitulo("A13", "C13", "CONTROLE DESPESA LAVAGEM");
 
-  sheet.mergeCells(
-    linhaQuantidade,
-    1,
-    linhaQuantidade,
-    7
-  );
+  criarCabecalho(14, ["LOJAS", "QUANTIDADE", "TOTAL"]);
 
-  sheet.getCell(
-    linhaQuantidade,
-    1
-  ).value =
-    "QUANTIDADE DE LANÇAMENTOS";
+  let linhaLavagem = 15;
 
-  aplicarFilial(
-    sheet.getRow(
-      linhaQuantidade
-    ),
-    7
-  );
+  let quantidadeLavagem = 0;
+  let totalValorLavagem = 0;
 
-  const labelsRow =
-    sheet.getRow(
-      linhaQuantidade + 1
+  FILIAIS.forEach((filial) => {
+    const dados = gruposLavagem.get(filial.codigo) || [];
+
+    const quantidade = dados.length;
+
+    const valor = dados.reduce(
+      (soma, item) => soma + valorReal(item.valorTotal),
+      0,
     );
 
-  labelsRow.values = [
-    "ABASTECIMENTOS",
-    "",
-    "LAVAGENS",
-    "",
-    "PNEUS",
-    "",
-    "MANUTENÇÕES",
-  ];
+    const row = sheet.getRow(linhaLavagem);
 
-  aplicarCabecalho(
-    labelsRow,
-    7
-  );
+    row.getCell(1).value = nomeExibicaoFilial(filial.codigo);
 
-  const valuesRow =
-    sheet.getRow(
-      linhaQuantidade + 2
-    );
+    row.getCell(2).value = quantidade > 0 ? quantidade : "-";
 
-  valuesRow.values = [
-    abastecimentos.length,
-    "",
-    lavagens.length,
-    "",
-    pneus.length,
-    "",
-    manutencoes.length,
-  ];
+    row.getCell(3).value = valor > 0 ? valor : "-";
 
-  for (
-    let coluna = 1;
-    coluna <= 7;
-    coluna++
-  ) {
-    aplicarBorda(
-      valuesRow.getCell(
-        coluna
-      )
-    );
+    if (valor > 0) {
+      aplicarMoeda(row.getCell(3));
+    }
+
+    aplicarEstiloLinha(row, 1, 3);
+
+    quantidadeLavagem += quantidade;
+
+    totalValorLavagem += valor;
+
+    linhaLavagem++;
+  });
+
+  /*
+   * Quantidade lavagem
+   */
+  const rowQuantidadeLavagem = sheet.getRow(linhaLavagem);
+
+  rowQuantidadeLavagem.getCell(1).value = "QUANTIDADE LAVAGEM";
+
+  rowQuantidadeLavagem.getCell(2).value =
+    quantidadeLavagem > 0 ? quantidadeLavagem : "-";
+
+  rowQuantidadeLavagem.getCell(3).value = "";
+
+  estilizarTotal(rowQuantidadeLavagem, [1, 2, 3]);
+
+  /*
+   * Total geral lavagem
+   */
+  const rowTotalLavagem = sheet.getRow(linhaLavagem + 1);
+
+  rowTotalLavagem.getCell(2).value = "TOTAL GERAL";
+
+  rowTotalLavagem.getCell(3).value =
+    totalValorLavagem > 0 ? totalValorLavagem : "-";
+
+  if (totalValorLavagem > 0) {
+    aplicarMoeda(rowTotalLavagem.getCell(3));
   }
+
+  estilizarTotal(rowTotalLavagem, [2, 3]);
+
+  rowTotalLavagem.getCell(3).font = {
+    bold: true,
+    color: {
+      argb: `FF${CORES.texto}`,
+    },
+  };
+
+  /*
+   * ========================================================
+   * 4. CONTROLE DESPESA MANUTENÇÃO
+   * ========================================================
+   */
+
+  criarTitulo("E13", "G13", "CONTROLE DESPESA MANUTENÇÃO");
+
+  /*
+   * Cabeçalho E14:G14
+   */
+  ["LOJAS", "QUANTIDADE", "TOTAL"].forEach((valor, index) => {
+    const cell = sheet.getRow(14).getCell(index + 5);
+
+    cell.value = valor;
+
+    cell.fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: {
+        argb: "FFB7B7B7",
+      },
+    };
+
+    cell.font = {
+      bold: true,
+      color: {
+        argb: "FF000000",
+      },
+    };
+
+    cell.alignment = {
+      horizontal: "center",
+      vertical: "middle",
+    };
+
+    aplicarBorda(cell);
+  });
+
+  let linhaManutencao = 15;
+
+  let quantidadeManutencao = 0;
+  let totalValorManutencao = 0;
+
+  FILIAIS.forEach((filial) => {
+    const dados = gruposManutencao.get(filial.codigo) || [];
+
+    const quantidade = dados.length;
+
+    const valor = dados.reduce(
+      (soma, item) => soma + valorReal(item.valorTotal),
+      0,
+    );
+
+    const row = sheet.getRow(linhaManutencao);
+
+    row.getCell(5).value = nomeExibicaoFilial(filial.codigo);
+
+    row.getCell(6).value = quantidade > 0 ? quantidade : "-";
+
+    row.getCell(7).value = valor > 0 ? valor : "-";
+
+    if (valor > 0) {
+      aplicarMoeda(row.getCell(7));
+    }
+
+    aplicarEstiloLinha(row, 5, 7);
+
+    quantidadeManutencao += quantidade;
+
+    totalValorManutencao += valor;
+
+    linhaManutencao++;
+  });
+
+  /*
+   * Quantidade manutenção
+   */
+  const rowQuantidadeManutencao = sheet.getRow(linhaManutencao);
+
+  rowQuantidadeManutencao.getCell(5).value = "TOTAL MANUTENÇÃO";
+
+  rowQuantidadeManutencao.getCell(6).value =
+    quantidadeManutencao > 0 ? quantidadeManutencao : "-";
+
+  rowQuantidadeManutencao.getCell(7).value = "";
+
+  estilizarTotal(rowQuantidadeManutencao, [5, 6, 7]);
+
+  /*
+   * Total geral manutenção
+   */
+  const rowTotalManutencao = sheet.getRow(linhaManutencao + 1);
+
+  rowTotalManutencao.getCell(6).value = "TOTAL GERAL";
+
+  rowTotalManutencao.getCell(7).value =
+    totalValorManutencao > 0 ? totalValorManutencao : "-";
+
+  if (totalValorManutencao > 0) {
+    aplicarMoeda(rowTotalManutencao.getCell(7));
+  }
+
+  estilizarTotal(rowTotalManutencao, [6, 7]);
+
+  rowTotalManutencao.getCell(7).font = {
+    bold: true,
+    color: {
+      argb: `FF${CORES.texto}`,
+    },
+  };
+
+  /*
+   * ========================================================
+   * AJUSTES FINAIS
+   * ========================================================
+   */
+
+  sheet.getRow(1).height = 25;
+  sheet.getRow(2).height = 22;
+  sheet.getRow(13).height = 25;
+  sheet.getRow(14).height = 22;
 
   return sheet;
 }
+
+/* =========================================================
+   MÉDIA KM/L
+========================================================= */
 
 /* =========================================================
    MÉDIA KM/L
@@ -1853,12 +1491,9 @@ function criarAbaMediaKmL(
   workbook: ExcelJS.Workbook,
   abastecimentos: Abastecimento[],
   dataInicial: string,
-  dataFinal: string
+  dataFinal: string,
 ) {
-  const sheet =
-    workbook.addWorksheet(
-      "MÉDIA KM-L"
-    );
+  const sheet = workbook.addWorksheet("MÉDIA KM-L");
 
   prepararAba(
     sheet,
@@ -1866,349 +1501,243 @@ function criarAbaMediaKmL(
     [
       "PLACA",
       "VEÍCULO",
-      "MOTORISTA",
-      "DATA",
-      "KM ANTERIOR",
-      "KM ATUAL",
-      "KM RODADO",
-      "LITROS",
-      "MÉDIA KM/L",
+      "MÉDIA ÚLTIMO ABASTECIMENTO",
+      "MÉDIA GERAL DO PERÍODO",
     ],
-    [
-      14,
-      24,
-      28,
-      14,
-      16,
-      16,
-      16,
-      14,
-      18,
-    ]
+    [14, 30, 28, 24],
   );
 
   /*
-   * IMPORTANTE:
-   * Usamos TODOS os abastecimentos para encontrar o abastecimento
-   * anterior de cada veículo, inclusive quando o anterior está
-   * fora do período selecionado.
+   * Agrupa todos os abastecimentos por veículo.
    *
-   * Depois de calcular o consumo, mostramos somente os abastecimentos
-   * cuja data está dentro do período do relatório.
-   *
-   * Fórmula:
-   * KM rodado = KM atual - KM anterior
-   * KM/L = KM rodado / litros do abastecimento atual
+   * O motorista não participa do cálculo.
+   * O que importa é o veículo.
    */
+  const porVeiculo = new Map<number, Abastecimento[]>();
 
-  const porVeiculo =
-    new Map<number, Abastecimento[]>();
+  abastecimentos.forEach((registro) => {
+    const id = registro.veiculo?.id;
 
-  abastecimentos.forEach(
-    (registro) => {
-      const id =
-        registro.veiculo?.id;
-
-      if (!id) {
-        return;
-      }
-
-      const lista =
-        porVeiculo.get(id) || [];
-
-      lista.push(registro);
-
-      porVeiculo.set(
-        id,
-        lista
-      );
+    if (!id) {
+      return;
     }
-  );
 
-  const calculados: Array<{
-    registro: Abastecimento;
-    anterior: Abastecimento | null;
-    kmAnterior: number | null;
-    kmAtual: number;
-    kmRodado: number | null;
-    litros: number;
-    mediaKmL: number | null;
-  }> = [];
+    const lista = porVeiculo.get(id) || [];
 
-  porVeiculo.forEach(
-    (lista) => {
-      /*
-       * Ordenação correta:
-       * primeiro pela DATA e, em caso de empate, pelo ID.
-       *
-       * Não devemos ordenar pelo KM, porque o histórico precisa
-       * respeitar a sequência real dos abastecimentos.
-       */
-      const ordenados =
-        [...lista].sort(
-          (a, b) => {
-            const dataA =
-              dataReal(a.data)?.getTime() || 0;
+    lista.push(registro);
 
-            const dataB =
-              dataReal(b.data)?.getTime() || 0;
-
-            if (dataA !== dataB) {
-              return dataA - dataB;
-            }
-
-            return a.id - b.id;
-          }
-        );
-
-      for (
-        let i = 0;
-        i < ordenados.length;
-        i++
-      ) {
-        const atual =
-          ordenados[i];
-
-        const anterior =
-          i > 0
-            ? ordenados[i - 1]
-            : null;
-
-        const kmAtual =
-          Number(
-            atual.novoKm || 0
-          );
-
-        const litros =
-          litrosReal(
-            atual.quantLitro
-          );
-
-        let kmAnterior:
-          number | null = null;
-
-        let kmRodado:
-          number | null = null;
-
-        let mediaKmL:
-          number | null = null;
-
-        if (anterior) {
-          const kmAnteriorReal =
-            Number(
-              anterior.novoKm || 0
-            );
-
-          /*
-           * Só calculamos quando:
-           * - existe abastecimento anterior;
-           * - os dois KM são válidos;
-           * - o KM atual é maior;
-           * - existem litros abastecidos.
-           */
-          if (
-            kmAnteriorReal > 0 &&
-            kmAtual > 0 &&
-            kmAtual > kmAnteriorReal &&
-            litros > 0
-          ) {
-            kmAnterior =
-              kmAnteriorReal;
-
-            kmRodado =
-              kmAtual -
-              kmAnteriorReal;
-
-            mediaKmL =
-              kmRodado /
-              litros;
-          }
-        }
-
-        /*
-         * Só entra na aba o abastecimento cuja data
-         * pertence ao período selecionado.
-         */
-        if (
-          atual.data >= dataInicial &&
-          atual.data <= dataFinal
-        ) {
-          calculados.push({
-            registro: atual,
-            anterior,
-            kmAnterior,
-            kmAtual,
-            kmRodado,
-            litros,
-            mediaKmL,
-          });
-        }
-      }
-    }
-  );
+    porVeiculo.set(id, lista);
+  });
 
   /*
-   * Ordena a apresentação por filial, placa e data.
+   * Resumo de cada veículo.
+   *
+   * km:
+   * Soma de todos os KM rodados
+   * calculáveis no período.
+   *
+   * litros:
+   * Soma de todos os litros utilizados
+   * nos abastecimentos calculáveis.
+   *
+   * mediaUltimoAbastecimento:
+   * Média do último abastecimento do período.
    */
-  calculados.sort(
-    (a, b) => {
-      const filialA =
-        a.registro.veiculo?.filial || "";
+  const resumoPorVeiculo = new Map<
+    number,
+    {
+      placa: string;
+      veiculo: string;
+      km: number;
+      litros: number;
+      mediaUltimoAbastecimento: number | null;
+    }
+  >();
 
-      const filialB =
-        b.registro.veiculo?.filial || "";
+  porVeiculo.forEach((lista) => {
+    /*
+     * Ordena os abastecimentos pela data.
+     *
+     * Em caso de mesma data,
+     * utiliza o ID.
+     */
+    const ordenados = [...lista].sort((a, b) => {
+      const dataA = dataReal(a.data)?.getTime() || 0;
 
-      if (filialA !== filialB) {
-        return filialA.localeCompare(
-          filialB
-        );
-      }
-
-      const placaA =
-        a.registro.veiculo?.placa || "";
-
-      const placaB =
-        b.registro.veiculo?.placa || "";
-
-      if (placaA !== placaB) {
-        return placaA.localeCompare(
-          placaB
-        );
-      }
-
-      const dataA =
-        dataReal(
-          a.registro.data
-        )?.getTime() || 0;
-
-      const dataB =
-        dataReal(
-          b.registro.data
-        )?.getTime() || 0;
+      const dataB = dataReal(b.data)?.getTime() || 0;
 
       if (dataA !== dataB) {
         return dataA - dataB;
       }
 
-      return (
-        a.registro.id -
-        b.registro.id
-      );
+      return a.id - b.id;
+    });
+
+    let kmTotal = 0;
+    let litrosTotal = 0;
+
+    let mediaUltimoAbastecimento: number | null = null;
+
+    /*
+     * Percorre todos os abastecimentos.
+     */
+    for (let i = 0; i < ordenados.length; i++) {
+      const atual = ordenados[i];
+
+      /*
+       * Só consideramos como lançamento
+       * do relatório os abastecimentos
+       * dentro do período selecionado.
+       */
+      if (atual.data < dataInicial || atual.data > dataFinal) {
+        continue;
+      }
+
+      /*
+       * Precisamos do abastecimento anterior
+       * para descobrir quantos KM o veículo
+       * percorreu.
+       *
+       * Ele pode estar fora do período.
+       */
+      const anterior = i > 0 ? ordenados[i - 1] : null;
+
+      if (!anterior) {
+        continue;
+      }
+
+      const kmAtual = Number(atual.novoKm || 0);
+
+      const kmAnterior = Number(anterior.novoKm || 0);
+
+      const litros = litrosReal(atual.quantLitro);
+
+      /*
+       * Verifica se é possível calcular
+       * o consumo desse abastecimento.
+       */
+      if (
+        kmAtual <= 0 ||
+        kmAnterior <= 0 ||
+        kmAtual <= kmAnterior ||
+        litros <= 0
+      ) {
+        continue;
+      }
+
+      /*
+       * KM percorridos desde o abastecimento
+       * anterior.
+       */
+      const kmRodado = kmAtual - kmAnterior;
+
+      /*
+       * Média desse abastecimento.
+       */
+      const mediaAtual = kmRodado / litros;
+
+      /*
+       * Soma para a média geral do período.
+       */
+      kmTotal += kmRodado;
+      litrosTotal += litros;
+
+      /*
+       * Como estamos percorrendo em ordem
+       * cronológica, o último valor calculado
+       * será automaticamente a média do
+       * último abastecimento do período.
+       */
+      mediaUltimoAbastecimento = mediaAtual;
+
+      /*
+       * Cria o resumo do veículo.
+       */
+      const id = atual.veiculo.id;
+
+      const existente = resumoPorVeiculo.get(id);
+
+      if (existente) {
+        existente.km += kmRodado;
+
+        existente.litros += litros;
+
+        existente.mediaUltimoAbastecimento = mediaUltimoAbastecimento;
+      } else {
+        resumoPorVeiculo.set(id, {
+          placa: atual.veiculo?.placa || "",
+
+          veiculo: atual.veiculo?.modelosVeiculos || "",
+
+          km: kmRodado,
+
+          litros: litros,
+
+          mediaUltimoAbastecimento: mediaUltimoAbastecimento,
+        });
+      }
     }
+  });
+
+  /*
+   * Ordena os veículos pela placa.
+   */
+  const resumoOrdenado = [...resumoPorVeiculo.values()].sort((a, b) =>
+    a.placa.localeCompare(b.placa),
   );
 
   let linha = 4;
 
   /*
-   * Totais gerais da aba.
+   * Totais gerais da frota.
    */
   let totalKmRodado = 0;
   let totalLitros = 0;
 
   /*
-   * Controle dos veículos que tiveram pelo menos um
-   * abastecimento calculável.
+   * UMA LINHA POR VEÍCULO.
    */
-  const veiculosComCalculo =
-    new Set<number>();
+  resumoOrdenado.forEach((resumo) => {
+    const row = sheet.getRow(linha);
 
-  /*
-   * Mostra cada abastecimento do período e seu consumo.
-   */
-  calculados.forEach(
-    (item) => {
-      const row =
-        sheet.getRow(linha);
+    /*
+     * Média geral desse veículo
+     * no período selecionado.
+     */
+    const mediaGeral = resumo.litros > 0 ? resumo.km / resumo.litros : null;
 
-      const registro =
-        item.registro;
+    row.getCell(1).value = resumo.placa;
 
-      row.getCell(1).value =
-        registro.veiculo?.placa ||
-        "";
+    row.getCell(2).value = resumo.veiculo;
 
-      row.getCell(2).value =
-        registro.veiculo
-          ?.modelosVeiculos ||
-        "";
+    row.getCell(3).value = resumo.mediaUltimoAbastecimento;
 
-      row.getCell(3).value =
-        registro.motorista?.nome ||
-        "";
+    row.getCell(4).value = mediaGeral;
 
-      row.getCell(4).value =
-        dataReal(
-          registro.data
-        );
+    row.getCell(3).numFmt = "0.00";
 
-      row.getCell(5).value =
-        item.kmAnterior;
+    row.getCell(4).numFmt = "0.00";
 
-      row.getCell(6).value =
-        item.kmAtual || 0;
-
-      row.getCell(7).value =
-        item.kmRodado;
-
-      row.getCell(8).value =
-        item.litros;
-
-      row.getCell(9).value =
-        item.mediaKmL;
-
-      aplicarData(
-        row.getCell(4)
-      );
-
-      row.getCell(9).numFmt =
-        "0.00";
-
-      for (
-        let coluna = 1;
-        coluna <= 9;
-        coluna++
-      ) {
-        aplicarBorda(
-          row.getCell(coluna)
-        );
-      }
-
-      if (
-        item.kmRodado !== null &&
-        item.mediaKmL !== null &&
-        item.litros > 0
-      ) {
-        totalKmRodado +=
-          item.kmRodado;
-
-        totalLitros +=
-          item.litros;
-
-        veiculosComCalculo.add(
-          registro.veiculo.id
-        );
-      }
-
-      linha++;
+    for (let coluna = 1; coluna <= 4; coluna++) {
+      aplicarBorda(row.getCell(coluna));
     }
-  );
+
+    totalKmRodado += resumo.km;
+
+    totalLitros += resumo.litros;
+
+    linha++;
+  });
 
   /*
-   * Caso não exista nenhum abastecimento no período.
+   * Nenhum veículo calculável.
    */
-  if (calculados.length === 0) {
-    sheet.mergeCells(
-      4,
-      1,
-      4,
-      9
-    );
+  if (resumoOrdenado.length === 0) {
+    sheet.mergeCells(4, 1, 4, 4);
 
-    const cell =
-      sheet.getCell(4, 1);
+    const cell = sheet.getCell(4, 1);
 
-    cell.value =
-      "Nenhum abastecimento encontrado no período.";
+    cell.value = "Nenhum abastecimento com média calculável no período.";
 
     cell.alignment = {
       horizontal: "center",
@@ -2221,250 +1750,29 @@ function criarAbaMediaKmL(
         argb: "FF6B7280",
       },
     };
-  } else {
-    /*
-     * Linha de total da frota.
-     *
-     * A média geral é:
-     * total de KM rodados / total de litros
-     *
-     * e não a média simples das médias individuais.
-     */
-    const totalRow =
-      sheet.getRow(linha);
 
-    sheet.mergeCells(
-      linha,
-      1,
-      linha,
-      6
-    );
-
-    totalRow.getCell(1).value =
-      "MÉDIA DA FROTA";
-
-    totalRow.getCell(7).value =
-      totalKmRodado;
-
-    totalRow.getCell(8).value =
-      totalLitros;
-
-    totalRow.getCell(9).value =
-      totalLitros > 0
-        ? totalKmRodado /
-          totalLitros
-        : null;
-
-    totalRow.getCell(9).numFmt =
-      "0.00";
-
-    aplicarTotal(
-      totalRow,
-      9
-    );
-
-    linha += 2;
-
-    /*
-     * Resumo consolidado por veículo.
-     */
-    sheet.mergeCells(
-      linha,
-      1,
-      linha,
-      9
-    );
-
-    sheet.getCell(
-      linha,
-      1
-    ).value =
-      "RESUMO POR VEÍCULO";
-
-    aplicarFilial(
-      sheet.getRow(linha),
-      9
-    );
-
-    linha++;
-
-    const cabecalhoResumo =
-      sheet.getRow(linha);
-
-    cabecalhoResumo.values = [
-      "PLACA",
-      "VEÍCULO",
-      "MOTORISTA",
-      "ABASTECIMENTOS",
-      "KM RODADO",
-      "LITROS",
-      "",
-      "",
-      "MÉDIA KM/L",
-    ];
-
-    aplicarCabecalho(
-      cabecalhoResumo,
-      9
-    );
-
-    linha++;
-
-    const resumoPorVeiculo =
-      new Map<
-        number,
-        {
-          placa: string;
-          veiculo: string;
-          motorista: string;
-          abastecimentos: number;
-          km: number;
-          litros: number;
-        }
-      >();
-
-    calculados.forEach(
-      (item) => {
-        if (
-          item.kmRodado === null ||
-          item.mediaKmL === null ||
-          item.litros <= 0
-        ) {
-          return;
-        }
-
-        const id =
-          item.registro.veiculo.id;
-
-        const atual =
-          resumoPorVeiculo.get(id);
-
-        if (atual) {
-          atual.abastecimentos += 1;
-          atual.km +=
-            item.kmRodado;
-          atual.litros +=
-            item.litros;
-        } else {
-          resumoPorVeiculo.set(
-            id,
-            {
-              placa:
-                item.registro
-                  .veiculo?.placa ||
-                "",
-              veiculo:
-                item.registro
-                  .veiculo
-                  ?.modelosVeiculos ||
-                "",
-              motorista:
-                item.registro
-                  .motorista?.nome ||
-                "",
-              abastecimentos: 1,
-              km: item.kmRodado,
-              litros:
-                item.litros,
-            }
-          );
-        }
-      }
-    );
-
-    const resumoOrdenado =
-      [...resumoPorVeiculo.values()]
-        .sort((a, b) =>
-          a.placa.localeCompare(
-            b.placa
-          )
-        );
-
-    resumoOrdenado.forEach(
-      (resumo) => {
-        const row =
-          sheet.getRow(linha);
-
-        const media =
-          resumo.litros > 0
-            ? resumo.km /
-              resumo.litros
-            : null;
-
-        row.getCell(1).value =
-          resumo.placa;
-
-        row.getCell(2).value =
-          resumo.veiculo;
-
-        row.getCell(3).value =
-          resumo.motorista;
-
-        row.getCell(4).value =
-          resumo.abastecimentos;
-
-        row.getCell(5).value =
-          resumo.km;
-
-        row.getCell(6).value =
-          resumo.litros;
-
-        row.getCell(9).value =
-          media;
-
-        row.getCell(9).numFmt =
-          "0.00";
-
-        for (
-          let coluna = 1;
-          coluna <= 9;
-          coluna++
-        ) {
-          aplicarBorda(
-            row.getCell(coluna)
-          );
-        }
-
-        linha++;
-      }
-    );
-
-    /*
-     * Caso nenhum abastecimento tenha um abastecimento anterior
-     * válido para cálculo.
-     */
-    if (
-      resumoOrdenado.length === 0
-    ) {
-      sheet.mergeCells(
-        linha,
-        1,
-        linha,
-        9
-      );
-
-      const cell =
-        sheet.getCell(
-          linha,
-          1
-        );
-
-      cell.value =
-        "Não há abastecimentos consecutivos suficientes para calcular o consumo no período.";
-
-      cell.alignment = {
-        horizontal: "center",
-        vertical: "middle",
-      };
-
-      cell.font = {
-        italic: true,
-        color: {
-          argb: "FF6B7280",
-        },
-      };
-    }
+    return sheet;
   }
+
+  /*
+   * Média geral da frota.
+   *
+   * Soma de todos os KM rodados
+   * dividida pela soma de todos os litros.
+   */
+  const mediaGeralFrota = totalLitros > 0 ? totalKmRodado / totalLitros : null;
+
+  const totalRow = sheet.getRow(linha);
+
+  sheet.mergeCells(linha, 1, linha, 3);
+
+  totalRow.getCell(1).value = "MÉDIA GERAL DA FROTA";
+
+  totalRow.getCell(4).value = mediaGeralFrota;
+
+  totalRow.getCell(4).numFmt = "0.00";
+
+  aplicarTotal(totalRow, 4);
 
   return sheet;
 }
@@ -2477,71 +1785,41 @@ export async function gerarRelatorioExcel(
   dataInicial: string,
   dataFinal: string,
   abastecimentos: Abastecimento[],
-  manutencoes: Manutencao[]
+  manutencoes: Manutencao[],
 ) {
-  if (
-    !dataInicial ||
-    !dataFinal
-  ) {
-    throw new Error(
-      "Selecione a data inicial e a data final."
-    );
+  if (!dataInicial || !dataFinal) {
+    throw new Error("Selecione a data inicial e a data final.");
   }
 
-  if (
-    dataInicial > dataFinal
-  ) {
-    throw new Error(
-      "A data inicial não pode ser maior que a data final."
-    );
+  if (dataInicial > dataFinal) {
+    throw new Error("A data inicial não pode ser maior que a data final.");
   }
 
   /*
    * FILTRO DO PERÍODO
    */
 
-  const abastecimentosPeriodo =
-    abastecimentos.filter(
-      (registro) =>
-        registro.data >=
-          dataInicial &&
-        registro.data <=
-          dataFinal
-    );
+  const abastecimentosPeriodo = abastecimentos.filter(
+    (registro) => registro.data >= dataInicial && registro.data <= dataFinal,
+  );
 
-  const manutencoesPeriodo =
-    manutencoes.filter(
-      (registro) =>
-        registro.data >=
-          dataInicial &&
-        registro.data <=
-          dataFinal
-    );
+  const manutencoesPeriodo = manutencoes.filter(
+    (registro) => registro.data >= dataInicial && registro.data <= dataFinal,
+  );
 
-  const pneus =
-    manutencoesPeriodo.filter(
-      (registro) =>
-        registro.despesa ===
-          "MANUTENCAO" &&
-        registro.manutencaoTipos ===
-          "PNEU"
-    );
+  const pneus = manutencoesPeriodo.filter(
+    (registro) =>
+      registro.despesa === "MANUTENCAO" && registro.manutencaoTipos === "PNEU",
+  );
 
-  const lavagens =
-    manutencoesPeriodo.filter(
-      (registro) =>
-        registro.despesa ===
-        "LAVAGEM"
-    );
+  const lavagens = manutencoesPeriodo.filter(
+    (registro) => registro.despesa === "LAVAGEM",
+  );
 
-  const manutencoesNormais =
-    manutencoesPeriodo.filter(
-      (registro) =>
-        registro.despesa ===
-          "MANUTENCAO" &&
-        registro.manutencaoTipos !==
-          "PNEU"
-    );
+  const manutencoesNormais = manutencoesPeriodo.filter(
+    (registro) =>
+      registro.despesa === "MANUTENCAO" && registro.manutencaoTipos !== "PNEU",
+  );
 
   /*
    * CRIA O EXCEL DO ZERO
@@ -2552,14 +1830,11 @@ export async function gerarRelatorioExcel(
    * Portanto não depende de template.
    */
 
-  const workbook =
-    new ExcelJS.Workbook();
+  const workbook = new ExcelJS.Workbook();
 
-  workbook.creator =
-    "Sistema de Controle da Frota";
+  workbook.creator = "Sistema de Controle da Frota";
 
-  workbook.created =
-    new Date();
+  workbook.created = new Date();
 
   /*
    * ORDEM EXATA DAS ABAS
@@ -2575,84 +1850,42 @@ export async function gerarRelatorioExcel(
     lavagens,
     manutencoesNormais,
     dataInicial,
-    dataFinal
+    dataFinal,
   );
 
-  criarAbaCombustivel(
-    workbook,
-    abastecimentosPeriodo,
-    dataInicial,
-    dataFinal
-  );
+  criarAbaCombustivel(workbook, abastecimentosPeriodo, dataInicial, dataFinal);
 
-  criarAbaLavagem(
-    workbook,
-    lavagens,
-    dataInicial,
-    dataFinal
-  );
+  criarAbaLavagem(workbook, lavagens, dataInicial, dataFinal);
 
-  criarAbaManutencao(
-    workbook,
-    manutencoesNormais,
-    dataInicial,
-    dataFinal
-  );
+  criarAbaManutencao(workbook, manutencoesNormais, dataInicial, dataFinal);
 
-  criarAbaPneus(
-    workbook,
-    pneus,
-    dataInicial,
-    dataFinal
-  );
+  criarAbaPneus(workbook, pneus, dataInicial, dataFinal);
 
-  criarAbaMediaKmL(
-    workbook,
-    abastecimentos,
-    dataInicial,
-    dataFinal
-  );
+  criarAbaMediaKmL(workbook, abastecimentos, dataInicial, dataFinal);
 
   /*
    * GERA O ARQUIVO
    */
 
-  const buffer =
-    await workbook.xlsx.writeBuffer();
+  const buffer = await workbook.xlsx.writeBuffer();
 
-  const blob =
-    new Blob(
-      [buffer],
-      {
-        type:
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      }
-    );
+  const blob = new Blob([buffer], {
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  });
 
-  const url =
-    window.URL.createObjectURL(
-      blob
-    );
+  const url = window.URL.createObjectURL(blob);
 
-  const link =
-    document.createElement(
-      "a"
-    );
+  const link = document.createElement("a");
 
   link.href = url;
 
-  link.download =
-    `Relatorio_Frota_${dataInicial}_a_${dataFinal}.xlsx`;
+  link.download = `Relatorio_Frota_${dataInicial}_a_${dataFinal}.xlsx`;
 
-  document.body.appendChild(
-    link
-  );
+  document.body.appendChild(link);
 
   link.click();
 
   link.remove();
 
-  window.URL.revokeObjectURL(
-    url
-  );
+  window.URL.revokeObjectURL(url);
 }
