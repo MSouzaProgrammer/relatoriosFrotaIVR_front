@@ -1235,48 +1235,6 @@ function Media() {
             )}
           </select>
         </div>
-
-        {/* LIMPAR */}
-
-        <button
-          type="button"
-          onClick={() => {
-            setFilialSelecionada(
-              "todas"
-            );
-
-            setPeriodo("");
-          }}
-          className="w-full sm:w-36 h-10 flex items-center justify-center gap-2 border border-slate-200 rounded-md bg-white text-slate-700 text-sm hover:bg-slate-100 cursor-pointer"
-        >
-          <Filter
-            size={20}
-            strokeWidth={3}
-          />
-
-          Limpar
-        </button>
-
-        {/* EXPORTAR */}
-
-        <button
-          type="button"
-          onClick={
-            exportarCSV
-          }
-          disabled={
-            registrosFiltrados.length ===
-            0
-          }
-          className="w-full sm:w-36 h-10 flex items-center justify-center gap-2 border border-slate-200 rounded-md bg-white text-slate-700 text-sm hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
-        >
-          <Download
-            size={20}
-            strokeWidth={3}
-          />
-
-          Exportar
-        </button>
       </div>
 
       {/* CARDS */}

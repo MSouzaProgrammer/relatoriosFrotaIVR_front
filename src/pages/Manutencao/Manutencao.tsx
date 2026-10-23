@@ -10,8 +10,6 @@ import {
   useState,
 } from "react";
 
-import BotaoManutencao from "./botaoManutencao";
-
 import api from "../../services/api";
 
 interface Veiculo {
@@ -396,14 +394,6 @@ function Manutencao() {
           </p>
 
         </div>
-
-        <button
-          onClick={abrirNovo}
-          className="w-full sm:w-38 h-10 shrink-0 text-white text-sm bg-blue-600 rounded-lg hover:bg-blue-800 cursor-pointer"
-        >
-          + Novo Registro
-        </button>
-
       </div>
 
       {/* FILTROS */}
@@ -516,31 +506,6 @@ function Manutencao() {
           </select>
 
         </div>
-
-        <button
-          type="button"
-          className="w-full sm:w-35 h-10 flex items-center justify-center gap-2 border border-slate-200 rounded-md bg-white text-slate-700 text-sm hover:bg-slate-100 cursor-pointer"
-        >
-          <Filter
-            size={20}
-            strokeWidth={3}
-          />
-
-          Mais Filtros
-        </button>
-
-        <button
-          type="button"
-          className="w-full sm:w-35 h-10 flex items-center justify-center gap-2 border border-slate-200 rounded-md bg-white text-slate-700 text-sm hover:bg-slate-100 cursor-pointer"
-        >
-          <Download
-            size={20}
-            strokeWidth={3}
-          />
-
-          Exportar
-        </button>
-
       </div>
 
       {/* ERRO */}
@@ -855,29 +820,10 @@ function Manutencao() {
               >
                 Próximo
               </button>
-
             </div>
-
           </div>
-
         </div>
       </div>
-
-      {/* MODAL */}
-      {modalAberto && (
-        <BotaoManutencao
-          manutencao={
-            manutencaoEditando
-          }
-          onFechar={
-            fecharModal
-          }
-          onSalvo={
-            carregarManutencoes
-          }
-        />
-      )}
-
     </div>
   );
 }
